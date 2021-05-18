@@ -25,4 +25,4 @@ mongoose.connect(`mongodb://${process.env.MONGODB_HOSTNAME}/${process.env.MONGOD
   })
   .catch((error) => {
     console.log('Unable to connect to MongoDB: ', error)
-  });
+  })
