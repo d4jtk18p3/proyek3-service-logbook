@@ -10,6 +10,8 @@
   - [Menjalankan & menkonfigurasikan PostgreSQL](#menjalankan--menkonfigurasikan-postgresql)
     - [Windows (dengan pgAdmin)](#windows-dengan-pgadmin)
     - [Docker](#docker)
+  - [Menjalankan & menkonfigurasikan MongoDB](#menjalankan--menkonfigurasikan-mongodb)
+    - [Windows (dengan MongoDBCompass)](#windows-dengan-mongodbcompass)
   - [Mengubah `.env.development` sesuai keadaan local environment](#mengubah-envdevelopment-sesuai-keadaan-local-environment)
   - [Instal dependencies](#instal-dependencies)
   - [Migrasi database](#migrasi-database)
@@ -79,6 +81,20 @@ $ docker run \
     -e POSTGRES_DB=proyek3 \
     -d postgres
 ```
+### Menjalankan & menkonfigurasikan MongoDB
+
+Konfigurasi standar yang dibuat membutuhkan database dengan nama `proyek3`
+
+###### Windows (dengan MongoDBCompass)
+
+Untuk membuat database dengan nama `proyek3`, ikuti langkah berikut:
+
+1. Buka MongoDBCompass.
+2. Pada bagian `Connection` pilih `Connect`.
+3. Setelah terhubung, pada bagian `Local` (klik dari sidebar), di bawah tab `Database` pilih `Create Database`.
+4. Pada window `Create Database` dalam field `Database Name`, isi dengan `proyek3`.
+5. Pada window `Create Database` dalam field `Collection Name`, isi dengan `logbook`.
+6. Pada window `Create Database`, klik tombol `Create Database`.
 
 ### Mengubah `.env.development` sesuai keadaan local environment
 
