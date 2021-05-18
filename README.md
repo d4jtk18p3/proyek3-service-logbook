@@ -83,7 +83,7 @@ $ docker run \
 ```
 ### Menjalankan & menkonfigurasikan MongoDB
 
-Konfigurasi standar yang dibuat membutuhkan database dengan nama `proyek3`
+Konfigurasi standar yang dibuat membutuhkan database dengan nama `proyek3` dan collection dengan nama `logbook`
 
 ###### Windows (dengan MongoDBCompass)
 
