@@ -2,7 +2,7 @@ import { insertOneDosen } from '../dao/Dosen'
 import { insertOneAkun, deleteAkunByUsername } from '../dao/Akun'
 import { insertOneTataUsaha } from '../dao/TataUsaha'
 import { insertOneMahasiswa } from '../dao/Mahasiswa'
-import { validationResult } from 'express-validator/check'
+import { validationResult } from 'express-validator'
 import { getAdminClient, adminAuth } from '../config/keycloak-admin'
 import { uuid } from 'uuidv4'
 
