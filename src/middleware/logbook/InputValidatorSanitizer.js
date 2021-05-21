@@ -20,7 +20,6 @@ export const postNewLogbook = [
   body('kode_kelas', 'kode_kelas wajib diisi').exists()
 ]
 
-
 export const postNewEntri = [
   body('tanggal', 'tanggal wajib diisi').exists().bail(),
   body('tanggal').custom((value) => {
@@ -29,7 +28,7 @@ export const postNewEntri = [
         return Promise.reject(new Error('Entri sudah terdaftar'))
       }
     })
-  }),
+  })
 ]
 
 export const deleteEntriById = [

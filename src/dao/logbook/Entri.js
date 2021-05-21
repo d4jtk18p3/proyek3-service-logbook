@@ -1,25 +1,25 @@
-import mongoose from 'mongoose';
-import entriSchema from '../../models/logbook/Entri';
+import mongoose from 'mongoose'
+import entriSchema from '../../models/logbook/Entri'
 
 entriSchema.statics = {
-    postEntri : function(data, cb) {
-        console.log(data)
-        var Entri = new this(data);
-        Entri.save(cb);
-    },
+  postEntri: function (data, cb) {
+    console.log(data)
+    const Entri = new this(data)
+    Entri.save(cb)
+  },
 
-    getEntri: function(query, cb) {
-        this.find(query, cb);
-    },
+  getEntri: function (query, cb) {
+    this.find(query, cb)
+  },
 
-    updateEntri: function(query, updateData, cb) {
-        this.findOneAndUpdate(query, {$set: updateData},{new: true}, cb);
-    },
+  updateEntri: function (query, updateData, cb) {
+    this.findOneAndUpdate(query, { $set: updateData }, { new: true }, cb)
+  },
 
-    deleteEntri: function(query, cb) {
-        this.findOneAndDelete(query,cb);
-    }
+  deleteEntri: function (query, cb) {
+    this.findOneAndDelete(query, cb)
+  }
 }
 
-var entriModel = mongoose.model('entri', entriSchema);
-export default entriModel;
+const entriModel = mongoose.model('entri', entriSchema)
+export default entriModel

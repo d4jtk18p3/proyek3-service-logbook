@@ -1,65 +1,66 @@
-import entriSchema from '../../dao/logbook/Entri';
+import entriSchema from '../../dao/logbook/Entri'
 
 export function createEntri (req, res, next) {
-    var entri = {
-        tanggal: req.body.tanggal,
-        kegiatan: req.body.kegiatan,
-        hasil: req.body.hasil,
-        kesan: req.body.kesan
-    };
-    entriSchema.postEntri(entri, function(err, entri) {
-        if(err) {
-            res.json({
-                error: err
-            })
-        }
-        res.json({
-            message : "Entri created successfully"
-        })
-    })
-}
+  const entri = {
+    tanggal: req.body.tanggal,
+    kegiatan: req.body.kegiatan,
+    hasil: req.body.hasil,
+    kesan: req.body.kesan
+  }
 
-export function getEntri(req, res, next) {
-    entriSchema.getEntri({_id: req.params.id}, function(err, entri) {
-        if(err) {
-            res.json({
-                error: err
-            })
-        }
-        res.json({
-            entri: entri
-        })
-    })
-}
-
-export function updateEntri(req, res, next) {
-    var entri = {
-        tanggal: req.body.tanggal,
-        kegiatan: req.body.kegiatan,
-        hasil: req.body.hasil,
-        kesan: req.body.kesan
+  entriSchema.postEntri(entri, function (err, entri) {
+    if (err) {
+      res.json({
+        error: err
+      })
     }
-    entriSchema.updateEntri({_id: req.params.id}, entri, function(err, entri) {
-        if(err) {
-            res.json({
-                error : err
-            })
-        }
-        res.json({
-            message : "Entri updated successfully"
-        })
+    res.json({
+      message: 'Entri created successfully'
     })
+  })
 }
 
-export function removeEntri(req, res, next) {
-    entriSchema.deleteEntri({_id: req.params.id}, function(err, entri) {
-        if(err) {
-            res.json({
-                error : err
-            })
-        }
-        res.json({
-            message : "Entri deleted successfully"
-        })
+export function getEntri (req, res, next) {
+  entriSchema.getEntri({ _id: req.params.id }, function (err, entri) {
+    if (err) {
+      res.json({
+        error: err
+      })
+    }
+    res.json({
+      entri: entri
     })
+  })
+}
+
+export function updateEntri (req, res, next) {
+  const entri = {
+    tanggal: req.body.tanggal,
+    kegiatan: req.body.kegiatan,
+    hasil: req.body.hasil,
+    kesan: req.body.kesan
+  }
+  entriSchema.updateEntri({ _id: req.params.id }, entri, function (err, entri) {
+    if (err) {
+      res.json({
+        error: err
+      })
+    }
+    res.json({
+      message: 'Entri updated successfully'
+    })
+  })
+}
+
+export function removeEntri (req, res, next) {
+  entriSchema.deconsteEntri({ _id: req.params.id }, function (err, entri) {
+    if (err) {
+      res.json({
+        error: err
+      })
+    }
+    res.json({
+      message: 'Entri deconsted successfully'
+    })
+  })
 }

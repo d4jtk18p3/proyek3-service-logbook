@@ -13,7 +13,7 @@ app.use(cors())
 // Non aktifkan dulu keycloak agar tidak ada validasi token
 // app.use(keycloak.middleware())
 // app.use(keycloak.protect())
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }))
 app.use(express.json()) // To parse the incoming requests with JSON payloads
 app.use(morgan('dev'))
 app.use('/dosen', dosenRouter)
