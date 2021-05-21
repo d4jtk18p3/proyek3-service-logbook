@@ -1,14 +1,12 @@
 import entriSchema from '../../dao/logbook/Entri';
 
 export function createEntri (req, res, next) {
-    console.log("masuk1")
     var entri = {
         tanggal: req.body.tanggal,
         kegiatan: req.body.kegiatan,
         hasil: req.body.hasil,
         kesan: req.body.kesan
     };
-    console.log("masuk2")
     entriSchema.postEntri(entri, function(err, entri) {
         if(err) {
             res.json({
@@ -22,7 +20,7 @@ export function createEntri (req, res, next) {
 }
 
 export function getEntri(req, res, next) {
-    entriSchema.getById({_id: req.params.id}, function(err, entri) {
+    entriSchema.getEntri({_id: req.params.id}, function(err, entri) {
         if(err) {
             res.json({
                 error: err
@@ -41,7 +39,7 @@ export function updateEntri(req, res, next) {
         hasil: req.body.hasil,
         kesan: req.body.kesan
     }
-    entriSchema.putEntri({_id: req.params.id}, entri, function(err, entri) {
+    entriSchema.updateEntri({_id: req.params.id}, entri, function(err, entri) {
         if(err) {
             res.json({
                 error : err

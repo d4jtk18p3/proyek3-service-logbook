@@ -8,11 +8,11 @@ entriSchema.statics = {
         Entri.save(cb);
     },
 
-    getById: function(query, cb) {
+    getEntri: function(query, cb) {
         this.find(query, cb);
     },
 
-    Entri: function(query, updateData, cb) {
+    updateEntri: function(query, updateData, cb) {
         this.findOneAndUpdate(query, {$set: updateData},{new: true}, cb);
     },
 

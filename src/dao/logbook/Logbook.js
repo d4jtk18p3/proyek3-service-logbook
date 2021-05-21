@@ -8,12 +8,12 @@ logbookSchema.statics = {
         Logbook.save(cb);
     },
 
-    getById: function(query, cb) {
+    getLogbook: function(query, cb) {
         this.find(query, cb);
     },
 
-    updateLogbook: function(query, updateData, cb) {
-        this.findOneAndUpdate(query, {$set: updateData},{new: true}, cb);
+    updateEntriLogbook: function(query, updateData, cb) {
+        this.findOneAndUpdate(query, {$set: {updateData}},{new: true}, cb);
     },
 }
 
