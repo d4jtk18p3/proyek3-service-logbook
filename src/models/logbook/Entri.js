@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
-let Schema = mongoose.Schema
-let entriSchema = new Schema({
+const Schema = mongoose.Schema
+const entriSchema = new Schema({
   tanggal: Date,
   kegiatan: String,
   hasil: String,

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
-let Schema = mongoose.Schema
-let logbookSchema = new Schema({
+const Schema = mongoose.Schema
+const logbookSchema = new Schema({
   nama: String,
   nim: Number,
   kelas: String,
