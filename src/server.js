@@ -1,11 +1,11 @@
 import express from 'express'
 import morgan from 'morgan'
 import cors from 'cors'
-import bodyParser from 'body-parser'
 
 // import keycloak from './middleware/keycloak'
 import dosenRouter from './routes/Dosen'
 import mahasiswaRouter from './routes/Mahasiswa'
+import entriRouter from './routes/logbook/Entri'
 // import userRouter from './routes/User'
 
 const app = express()
@@ -13,10 +13,12 @@ app.use(cors())
 // Non aktifkan dulu keycloak agar tidak ada validasi token
 // app.use(keycloak.middleware())
 // app.use(keycloak.protect())
-app.use(bodyParser.json())
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json()) // To parse the incoming requests with JSON payloads
 app.use(morgan('dev'))
 app.use('/dosen', dosenRouter)
 app.use('/mahasiswa', mahasiswaRouter)
+app.use('/logbook/entri', entriRouter)
 // app.use('/user', userRouter)
 
 // error handling
