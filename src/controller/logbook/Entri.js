@@ -80,14 +80,14 @@ export function updateEntri (req, res, next) {
 }
 
 export function removeEntri (req, res, next) {
-  entriSchema.deconsteEntri({ _id: req.params.id }, function (err, entri) {
+  entriSchema.deleteEntri({ _id: req.params.id }, function (err, entri) {
     if (err) {
       res.json({
         error: err
       })
     }
     res.json({
-      message: 'Entri deconsted successfully'
+      message: 'Entri deleted successfully'
     })
   })
 }
