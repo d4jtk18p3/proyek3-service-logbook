@@ -29,7 +29,7 @@ export function createEntri (req, res, next) {
   const condition = { _id: req.body.id_logbook }
   logbookSchema.getLogbook(condition, function (err, logbook) {
     if (err) {
-      console.log(`Logbook with was not found`)
+      console.log('Logbook with was not found')
     }
 
     const newEntri = entri._id.toString()
