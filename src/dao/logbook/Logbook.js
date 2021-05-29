@@ -13,7 +13,9 @@ logbookSchema.statics = {
   },
 
   updateEntriLogbook: function (query, updateData, cb) {
-    this.findOneAndUpdate(query, { $set: { updateData } }, { new: true }, cb)
+    console.log("di dalem dao")
+    console.log(updateData)
+    this.findOneAndUpdate(query, { $set: updateData }, { new: true }, cb)
   }
 }
 
