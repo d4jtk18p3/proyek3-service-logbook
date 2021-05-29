@@ -29,14 +29,13 @@ export function createEntri (req, res, next) {
   const condition = { _id: req.body.id_logbook }
   logbookSchema.getLogbook(condition, function (err, logbook) {
     if (err) {
-      console.log(`Logbook with id ${id} was not found`)
+      console.log(`Logbook with was not found`)
     }
 
     const newEntri = entri._id.toString()
     const len = logbook[0].entri.length
     const newLogbook = logbook[0]
     newLogbook.entri[len] = newEntri
-    
     logbookSchema.updateEntriLogbook(condition, newLogbook, function (err, res) {
       if (err) {
         console.log('Failed to update caused by: ', err)
