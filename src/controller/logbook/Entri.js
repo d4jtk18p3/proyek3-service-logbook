@@ -26,7 +26,7 @@ export function createEntri (req, res, next) {
   })
 
   // Update entris list
-  const condition = { _id: req.body.id_logbook }
+  const condition = { _id: req.params.id_logbook }
   logbookSchema.getLogbook(condition, function (err, logbook) {
     if (err) {
       console.log('Logbook with was not found')
