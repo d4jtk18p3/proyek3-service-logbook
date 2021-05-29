@@ -13,7 +13,7 @@ logbookSchema.statics = {
   },
 
   updateEntriLogbook: function (query, updateData, cb) {
-    this.findOneAndUpdate(query, { $set: { updateData } }, { new: true }, cb)
+    this.findOneAndUpdate(query, { $set: updateData }, { new: true }, cb)
   }
 }
 

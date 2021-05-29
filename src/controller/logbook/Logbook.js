@@ -2,10 +2,10 @@ import logbookSchema from '../../dao/logbook/Logbook'
 
 export function createLogbook (req, res, next) {
   const logbook = {
-    nama: req.body.tanggal,
-    nim: req.body.kegiatan,
-    kode_kelas: req.body.hasil,
-    kelas_proyek: req.body.kesan
+    nama: req.body.nama,
+    nim: req.body.nim,
+    kode_kelas: req.body.kode_kelas,
+    kelas_proyek: req.body.kelas_proyek
   }
   logbookSchema.postLogbook(logbook, function (err, logbook) {
     if (err) {
@@ -14,7 +14,8 @@ export function createLogbook (req, res, next) {
       })
     }
     res.json({
-      message: 'Logbook created successfully'
+      message: 'Logbook created successfully',
+      logbook: logbook
     })
   })
 }
