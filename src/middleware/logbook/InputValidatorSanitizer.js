@@ -1,6 +1,6 @@
 import { body, param } from 'express-validator'
-import * as logbookDAO from '../../dao/logbook/Logbook'
-import * as entriDAO from '../../dao/logbook/Entri'
+import logbookDAO from '../../dao/logbook/Logbook'
+import entriDAO from '../../dao/logbook/Entri'
 
 // CATATAN : File ini berisi middleware untuk memvalidasi dan sanitasi inputan yang dikirim oleh user
 
@@ -20,16 +20,27 @@ export const postNewLogbook = [
   body('kode_kelas', 'kode_kelas wajib diisi').exists()
 ]
 
-export const postNewEntri = [
-  body('tanggal', 'tanggal wajib diisi').exists().bail(),
-  body('tanggal').custom((value) => {
-    return entriDAO.getEntri(value).then((entri) => {
-      if (entri) {
-        return Promise.reject(new Error('Entri sudah terdaftar'))
-      }
-    })
-  })
-]
+export const postNewEntri = () => {
+  return [
+    // body('tanggal')
+    // .trim()
+    // .notEmpty().withMessage("tanggal tidak boleh kosong.")
+    // .custom(async(value) => {
+    //   let logbook = await logbookDAO.getLogbook({_id: req.params.id_logbook});
+    //   console.log("udah masuk siss")
+    //     let isExist = await logbook[0].entri.findOne({
+    //         where: {
+    //             tanggal: value
+    //         }
+    //     });
+    //     if(isExist) {
+    //         throw new Error("tanggal is already exist.");
+    //     } else {
+    //         return true;
+    //     }
+    // }),
+  ]
+}
 
 export const deleteEntriById = [
   param('_id').custom((value) => {

@@ -26,7 +26,7 @@ export function createEntri (req, res, next) {
   })
 
   // Update entris list
-  const condition = { _id: req.body.id_logbook }
+  const condition = { _id: req.params.id_logbook }
   logbookSchema.getLogbook(condition, function (err, logbook) {
     if (err) {
       console.log('Logbook with was not found')
@@ -80,14 +80,14 @@ export function updateEntri (req, res, next) {
 }
 
 export function removeEntri (req, res, next) {
-  entriSchema.deconsteEntri({ _id: req.params.id }, function (err, entri) {
+  entriSchema.deleteEntri({ _id: req.params.id }, function (err, entri) {
     if (err) {
       res.json({
         error: err
       })
     }
     res.json({
-      message: 'Entri deconsted successfully'
+      message: 'Entri deleted successfully'
     })
   })
 }
