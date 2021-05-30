@@ -39,25 +39,38 @@ export const createEntri = (req, res, next) => {
         next(error)
       })
 
-    // Update entris list
+    // Get logbook
     const condition = { _id: req.params.id_logbook }
-    logbookSchema.getLogbook(condition, function (err, logbook) {
-      if (err) {
-        console.log('Logbook with was not found')
-      }
-
-      const newEntri = entri._id.toString()
-      const len = logbook[0].entri.length
-      const newLogbook = logbook[0]
-      newLogbook.entri[len] = newEntri
-      logbookSchema.updateEntriLogbook(condition, newLogbook, function (err, res) {
-        if (err) {
-          console.log('Failed to update caused by: ', err)
+    let logbook = {}
+    logbookSchema.getLogbook(condition)
+      .then((result) => {
+        logbook = {
+          data: result.data
         }
 
-        console.log('Success update')
+        // Update entri list
+        const newLogbook = logbook.data[0]
+        const len = logbook.data[0].entri.length
+        newLogbook.entri[len] = entri._id.toString()
+        logbookSchema.updateEntriLogbook(condition, newLogbook)
+          .then((result) => {
+            console.log('Success update entri: ', result)
+          })
+          .catch(() => {
+            const error = {
+              status: 404,
+              message: 'Failed to update logbook'
+            }
+            console.error(error)
+          })
       })
-    })
+      .catch(() => {
+        const error = {
+          status: 404,
+          message: 'Logbook not found'
+        }
+        console.error(error)
+      })
   } catch (error) {
     next(error)
   }
@@ -119,6 +132,7 @@ export const updateEntri = (req, res, next) => {
     next(error)
   }
 }
+
 export function updateEntriByDate (req, res, next) {
   const entri = {
     tanggal: req.body.tanggal,
@@ -139,44 +153,65 @@ export function updateEntriByDate (req, res, next) {
 }
 
 export function removeEntri (req, res, next) {
-  // Update entris list
-  const condition = { _id: req.params.id_logbook }
-  logbookSchema.getLogbook(condition, function (err, logbook) {
-    if (err) {
-      console.log('Logbook with was not found')
-    } else {
-      console.log('found')
+  try {
+    const error = validationResult(req)
+
+    if (!error.isEmpty()) {
+      error.status = 400
+      error.message = error.errors[0].msg
+      throw error
     }
 
-    const delEntri = { _id: req.query.id }
-    const len = logbook.entri.length
-    const newLogbook = logbook
-    for (let i = 0; i < len; i++) {
-      if (newLogbook.entri[i] === delEntri) {
-        newLogbook.entri.splice(i, 1)
-        i--
-      }
-    }
-    logbookSchema.updateEntriLogbook(condition, newLogbook, function (err, res) {
-      if (err) {
-        console.log('Failed to update caused by: ', err)
-      }
-      console.log('Success update:')
-      console.log(res)
-    })
-  })
+    // Update entris list
+    const condition = { _id: req.params.id_logbook }
+    let logbook = {}
+    logbookSchema.getLogbook(condition)
+      .then((result) => {
+        logbook = {
+          data: result.data
+        }
 
-  entriSchema.deleteEntri({ _id: req.query.id }, function (err, entri) {
-    if (err) {
-      res.json({
-        error: err
+        const delEntri = { _id: req.query.id }
+        const len = logbook.data[0].entri.length
+        const newLogbook = logbook.data[0]
+        for (let i = 0; i < len; i++) {
+          if (newLogbook.entri[i] === delEntri) {
+            newLogbook.entri.splice(i, 1)
+            i--
+          }
+        }
+        logbookSchema.updateEntriLogbook(condition, newLogbook)
+          .then((result) => {
+            console.log('Success update', result)
+          })
+          .catch((err) => {
+            console.error(err)
+          })
       })
-    }
-    res.json({
-      message: 'Entri deleted successfully',
-      entri: entri
-    })
-  })
+      .catch(() => {
+        console.error('Logbook not found')
+      })
+
+    entriSchema.deleteEntri({ _id: req.params.id_logbook })
+      .then((result) => {
+        res.status(200).json({
+          message: 'Entri deleted successfully',
+          entri: result.data
+        })
+      })
+      .catch((err) => {
+        console.error(err)
+
+        const error = {
+          status: 400,
+          message: 'Failed to update entri'
+        }
+
+        next(error)
+      })
+  } catch (error) {
+    next(error)
+  }
 }
 
 export function removeEntriByDate (req, res, next) {

@@ -43,8 +43,19 @@ entriSchema.statics = {
     })
   },
 
-  deleteEntri: function (query, cb) {
-    this.findOneAndDelete(query, cb)
+  deleteEntri: function (query) {
+    console.log('masuk delete dao')
+    return new Promise((resolve, reject) => {
+      this.findOneAndDelete(query, (err, result) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve({
+            data: result
+          })
+        }
+      })
+    })
   }
 }
 
