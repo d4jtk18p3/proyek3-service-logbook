@@ -33,22 +33,22 @@ export const postNewEntri = [
   //     if(!logbook) {
   //       return new Error('Logbook tidak ada')
   //     } else {
-  //       console.log("masuknya ke else", logbook[0].entri.length)
   //       var i = 0
   //       for(i = 0; i < logbook[0].entri.length; i++) {
   //         const entriQuery = { _id: logbook[0].entri[i] }
-  //         entriDAO.getEntri(entriQuery, function(err, entri) {
-  //           if(entri) {
-  //             var stringDate = value.split('/')
-  //             const year = parseInt(stringDate[0], 10)
-  //             const month = parseInt(stringDate[1], 10) - 1 // urutan bulan dimulai dari 0
-  //             const day = parseInt(stringDate[2], 10)
-  //             var date = new Date(year, month, day, 24) // 24nya bakal diapus karena udah dikalkulasi di frontend
-  //             if(date.getTime() === entri[0].tanggal.getTime()) {
-  //               return new Error('Tanggal sudah ada.')
+  //         entriDAO.getEntri(entriQuery)
+  //           .then((entri) => {
+  //             if(entri) {
+  //               var stringDate = value.split('/')
+  //               const year = parseInt(stringDate[0], 10)
+  //               const month = parseInt(stringDate[1], 10) - 1 // urutan bulan dimulai dari 0
+  //               const day = parseInt(stringDate[2], 10)
+  //               var date = new Date(year, month, day, 24) // 24nya bakal diapus karena udah dikalkulasi di frontend
+  //               if(date.getTime() === entri.data[0].tanggal.getTime()) {
+  //                 return new Error('Tanggal sudah ada.')
+  //               }
   //             }
-  //           }
-  //         })
+  //           })
   //       }
   //     }
   //   })
@@ -66,29 +66,23 @@ export const postNewEntri = [
 
 export const deleteEntriById = [
   param('id').custom((value) => {
-    entriDAO.getEntri({ _id: value }, function (err, entri) {
-      if (err) {
-        console.error(err)
-      }
-
-      if (!entri) {
-        return new Error('Entri dengan id tersebut tidak ditemukan')
-      }
-    })
+    return entriDAO.getEntri({ _id: value })
+      .then((result) => {
+        if (result.data.length <= 0) {
+          return Promise.reject('Entri tidak ada.')
+        }
+      })
   })
 ]
 
 export const updateEntriById = [
   param('id').custom((value) => {
-    entriDAO.getEntri(value, function (err, entri) {
-      if (err) {
-        console.error(err)
-      }
-
-      if (!entri) {
-        return new Error('Entri dengan id tersebut tidak ditemukan')
-      }
-    })
+    return entriDAO.getEntri({ _id: value })
+      .then((result) => {
+        if (result.data.length <= 0) {
+          return Promise.reject('Entri tidak ada.')
+        }
+      })
   }),
   body('tanggal')
     .trim()
