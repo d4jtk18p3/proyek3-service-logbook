@@ -66,7 +66,7 @@ export const postNewEntri = [
 
 export const deleteEntriById = [
   param('id').custom((value) => {
-    entriDAO.getEntri ({ _id: value }, function(err, entri) {
+    entriDAO.getEntri({ _id: value }, function (err, entri) {
       if (err) {
         console.error(err)
       }
@@ -80,7 +80,7 @@ export const deleteEntriById = [
 
 export const updateEntriById = [
   param('id').custom((value) => {
-    entriDAO.getEntri (value, function(err, entri) {
+    entriDAO.getEntri(value, function (err, entri) {
       if (err) {
         console.error(err)
       }
