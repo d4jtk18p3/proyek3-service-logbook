@@ -1,6 +1,6 @@
-import { body } from 'express-validator'
+import { body, param, query } from 'express-validator'
 import logbookDAO from '../../dao/logbook/Logbook'
-// import entriDAO from '../../dao/logbook/Entri'
+import entriDAO from '../../dao/logbook/Entri'
 
 // CATATAN : File ini berisi middleware untuk memvalidasi dan sanitasi inputan yang dikirim oleh user
 
@@ -65,26 +65,36 @@ export const postNewEntri = [
 ]
 
 export const deleteEntriById = [
-  // param('id').custom((value) => {
-  //   return entriDAO.getEntri({ _id: value })
-  //     .then((result) => {
-  //       console.log(value)
-  //       if (result.data.length <= 0) {
-  //         return Promise.reject('Entri tidak ada.')
-  //       }
-  //     })
-  // })
+  query('id').custom((value) => {
+    return entriDAO.getEntri({ _id: value })
+      .then((result) => {
+        if (result.data.length <= 0) {
+          return Promise.reject(new Error('Entri tidak ada.'))
+        }
+      })
+  })
+]
+
+export const deleteEntriByDate = [
+  param('id_logbook').custom((value) => {
+    return logbookDAO.getLogbook({ _id: value })
+      .then((result) => {
+        if (result.data.length <= 0) {
+          return Promise.reject(new Error('Logbook tidak ada.'))
+        }
+      })
+  })
 ]
 
 export const updateEntriById = [
-  // param('id').custom((value) => {
-  //   return entriDAO.getEntri({ _id: value })
-  //     .then((result) => {
-  //       if (result.data.length <= 0) {
-  //         return Promise.reject('Entri tidak ada.')
-  //       }
-  //     })
-  // }),
+  param('id').custom((value) => {
+    return entriDAO.getEntri({ _id: value })
+      .then((result) => {
+        if (result.data.length <= 0) {
+          return Promise.reject(new Error('Entri tidak ada.'))
+        }
+      })
+  }),
   body('tanggal')
     .trim()
     .notEmpty().withMessage('Tanggal tidak boleh kosong.')
