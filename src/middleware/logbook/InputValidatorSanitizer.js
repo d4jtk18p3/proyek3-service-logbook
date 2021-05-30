@@ -1,6 +1,6 @@
-import { body } from 'express-validator'
+import { body, param, query } from 'express-validator'
 import logbookDAO from '../../dao/logbook/Logbook'
-// import entriDAO from '../../dao/logbook/Entri'
+import entriDAO from '../../dao/logbook/Entri'
 
 // CATATAN : File ini berisi middleware untuk memvalidasi dan sanitasi inputan yang dikirim oleh user
 
@@ -65,15 +65,15 @@ export const postNewEntri = [
 ]
 
 export const deleteEntriById = [
-  // param('id').custom((value) => {
-  //   return entriDAO.getEntri({ _id: value })
-  //     .then((result) => {
-  //       console.log(value)
-  //       if (result.data.length <= 0) {
-  //         return Promise.reject('Entri tidak ada.')
-  //       }
-  //     })
-  // })
+  query('id').custom((value) => {
+    return entriDAO.getEntri({ _id: value })
+      .then((result) => {
+        console.log(value)
+        if (result.data.length <= 0) {
+          return Promise.reject('Entri tidak ada.')
+        }
+      })
+  })
 ]
 
 export const updateEntriById = [

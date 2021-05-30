@@ -171,15 +171,16 @@ export function removeEntri (req, res, next) {
           data: result.data
         }
 
-        const delEntri = { _id: req.query.id }
+        const delEntri = req.query.id
         const len = logbook.data[0].entri.length
         const newLogbook = logbook.data[0]
         for (let i = 0; i < len; i++) {
-          if (newLogbook.entri[i] === delEntri) {
+          if (JSON.stringify(newLogbook.entri[i]) === JSON.stringify(delEntri)) {
             newLogbook.entri.splice(i, 1)
             i--
           }
         }
+
         logbookSchema.updateEntriLogbook(condition, newLogbook)
           .then((result) => {
             console.log('Success update', result)
@@ -192,7 +193,7 @@ export function removeEntri (req, res, next) {
         console.error('Logbook not found')
       })
 
-    entriSchema.deleteEntri({ _id: req.params.id_logbook })
+    entriSchema.deleteEntri({ _id: req.query.id })
       .then((result) => {
         res.status(200).json({
           message: 'Entri deleted successfully',
