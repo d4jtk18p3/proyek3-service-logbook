@@ -4,7 +4,7 @@ const logbookSchema = new Schema({
   nama: String,
   nim: Number,
   kelas: String,
-  kuliah_proyek: Number,
+  kuliah_proyek: String,
   entri: [
     { type: mongoose.Schema.Types.ObjectId, ref: 'Entri' }
   ]

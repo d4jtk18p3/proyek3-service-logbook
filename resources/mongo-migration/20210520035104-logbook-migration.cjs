@@ -43,8 +43,8 @@ module.exports = {
             description: "must be a number and is required"
           },
           kelas_proyek: {
-            bsonType : "int",
-            description: "must be a number and is required"
+            bsonType : "string",
+            description: "must be a string and is required"
           },
           Entri: {
             bsonType : "array",

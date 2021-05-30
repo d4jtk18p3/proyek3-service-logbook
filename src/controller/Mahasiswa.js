@@ -1,5 +1,6 @@
 import * as MahasiswaDAO from '../dao/Mahasiswa'
 import { validationResult } from 'express-validator'
+import * as common from '@proyek3/backend/src/controller/Mahasiswa'
 
 export const postNewMahasiswa = async (req, res, next) => {
   try {
@@ -153,18 +154,4 @@ export const searchMahasiswaByNIM = async (req, res, next) => {
   }
 }
 
-export const getMahasiswaByKelas = async (req, res, next) => {
-  try {
-    const kodeKelas = req.params.kode_kelas
-    const resultMahasiswa = await MahasiswaDAO.getMahasiswaByKelas(kodeKelas)
-    if (resultMahasiswa instanceof Error) {
-      throw resultMahasiswa
-    }
-    res.status(200).json({
-      message: 'Sukses retrieve data mahasiswa by kelas',
-      data: resultMahasiswa
-    })
-  } catch (error) {
-    next(error)
-  }
-}
+export const getMahasiswaByKelas = common.getMahasiswaByKelas

@@ -2,40 +2,40 @@ import logbookSchema from '../../dao/logbook/Logbook'
 
 export function createLogbook (req, res, next) {
   const logbook = {
-    nama: req.kauth.grant.access_token.nama,
-    nim: req.kauth.grant.access_token.nim,
-    kode_kelas: req.kauth.grant.access_token.kode_kelas,
-    kelas_proyek: req.body.kelas_proyek // diisi kode mata kuliah
-
-    // nama: req.body.nama,
-    // nim: req.body.nim,
-    // kode_kelas: req.body.kode_kelas,
-    // kelas_proyek: req.body.kelas_proyek
+    nama: req.body.nama,
+    nim: req.body.nim,
+    kode_kelas: req.body.kode_kelas,
+    kelas_proyek: req.body.kelas_proyek
   }
-  logbookSchema.postLogbook(logbook, function (err, logbook) {
-    if (err) {
-      res.json({
-        error: err
+  logbookSchema.postLogbook(logbook)
+    .then((result) => {
+      res.status(200).json({
+        entri: result.data
       })
-    }
-    res.json({
-      message: 'Logbook created successfully',
-      logbook: logbook
     })
-  })
+    .catch(() => {
+      const error = {
+        status: 404,
+        message: 'error creating logbook'
+      }
+      next(error)
+    })
 }
 
-export function getLogbookByNim (req, res, next) {
-  logbookSchema.getLogbook({ nim: req.params.nim }, function (err, logbook) {
-    if (err) {
-      res.json({
-        error: err
+export function getLogbookById (req, res, next) {
+  logbookSchema.getLogbook({ _id: req.params.id })
+    .then((result) => {
+      res.status(200).json({
+        entri: result.data
       })
-    }
-    res.json({
-      entri: logbook[0].entri
     })
-  })
+    .catch(() => {
+      const error = {
+        status: 404,
+        message: 'Logbook not found'
+      }
+      next(error)
+    })
 }
 
 export function updateLogbook (req, res, next) {
@@ -47,27 +47,33 @@ export function updateLogbook (req, res, next) {
     entri: req.body.entry
   }
 
-  logbookSchema.updateEntriLogbook({ _id: req.params.id }, logbook, function (err, logbook) {
-    if (err) {
-      res.json({
-        error: err
+  logbookSchema.updateEntriLogbook({ _id: req.params.id }, logbook)
+    .then((result) => {
+      res.status(200).json({
+        entri: result.data
       })
-    }
-    res.json({
-      message: 'Logbook updated successfully'
     })
-  })
+    .catch(() => {
+      const error = {
+        status: 404,
+        message: 'Logbook not found'
+      }
+      next(error)
+    })
 }
 
 export function removeLogbook (req, res, next) {
-  logbookSchema.deleteLogbook({ _id: req.params.id }, function (err, logbook) {
-    if (err) {
-      res.json({
-        error: err
+  logbookSchema.deleteLogbook({ _id: req.params.id })
+    .then((result) => {
+      res.status(200).json({
+        entri: result.data
       })
-    }
-    res.json({
-      message: 'Logbook deleted successfully'
     })
-  })
+    .catch(() => {
+      const error = {
+        status: 404,
+        message: 'Logbook not found'
+      }
+      next(error)
+    })
 }

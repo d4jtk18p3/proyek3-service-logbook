@@ -2,18 +2,45 @@ import mongoose from 'mongoose'
 import logbookSchema from '../../models/logbook/Logbook'
 
 logbookSchema.statics = {
-  postLogbook: function (data, cb) {
-    console.log(data)
-    const Logbook = new this(data)
-    Logbook.save(cb)
+  postLogbook: function (data) {
+    return new Promise((resolve, reject) => {
+      this.create(data, (err, result) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve({
+            data: result
+          })
+        }
+      })
+    })
+  },
+  getLogbook: function (query) {
+    return new Promise((resolve, reject) => {
+      this.find(query, (err, documents) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve({
+            data: documents
+          })
+        }
+      })
+    })
   },
 
-  getLogbook: function (query, cb) {
-    this.find(query, cb)
-  },
-
-  updateEntriLogbook: function (query, updateData, cb) {
-    this.findOneAndUpdate(query, { $set: updateData }, { new: true }, cb)
+  updateEntriLogbook: function (query, updateData) {
+    return new Promise((resolve, reject) => {
+      this.findOneAndUpdate(query, { $set: updateData }, { new: true }, (err, documents) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve({
+            data: documents
+          })
+        }
+      })
+    })
   }
 }
 
