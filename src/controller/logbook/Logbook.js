@@ -10,7 +10,7 @@ export function createLogbook (req, res, next) {
   logbookSchema.postLogbook(logbook)
     .then((result) => {
       res.status(200).json({
-        entri: result.data
+        logbook: result.data
       })
     })
     .catch(() => {
@@ -23,10 +23,10 @@ export function createLogbook (req, res, next) {
 }
 
 export function getLogbookById (req, res, next) {
-  logbookSchema.getLogbook({ _id: req.params.id })
+  logbookSchema.getLogbook({ nim: req.params.nim })
     .then((result) => {
       res.status(200).json({
-        entri: result.data
+        logbook: result.data
       })
     })
     .catch(() => {
@@ -50,7 +50,7 @@ export function updateLogbook (req, res, next) {
   logbookSchema.updateEntriLogbook({ _id: req.params.id }, logbook)
     .then((result) => {
       res.status(200).json({
-        entri: result.data
+        logbook: result.data
       })
     })
     .catch(() => {
@@ -66,7 +66,7 @@ export function removeLogbook (req, res, next) {
   logbookSchema.deleteLogbook({ _id: req.params.id })
     .then((result) => {
       res.status(200).json({
-        entri: result.data
+        logbook: result.data
       })
     })
     .catch(() => {
