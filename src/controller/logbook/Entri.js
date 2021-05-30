@@ -219,4 +219,3 @@ export function removeEntriByDate (req, res, next) {
     })
   })
 }
-     
