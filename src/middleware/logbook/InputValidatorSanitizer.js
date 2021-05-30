@@ -1,6 +1,6 @@
-import { body, param } from 'express-validator'
+import { body } from 'express-validator'
 import logbookDAO from '../../dao/logbook/Logbook'
-import entriDAO from '../../dao/logbook/Entri'
+// import entriDAO from '../../dao/logbook/Entri'
 
 // CATATAN : File ini berisi middleware untuk memvalidasi dan sanitasi inputan yang dikirim oleh user
 
