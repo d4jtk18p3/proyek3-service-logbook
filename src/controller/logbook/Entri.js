@@ -240,16 +240,18 @@ export function removeEntriByDate (req, res, next) {
         const month = parseInt(queryDate[1], 10) - 1 // urutan bulan dimulai dari 0
         const day = parseInt(queryDate[2], 10)
         const date = new Date(year, month, day, 24)
-        const len = logbook.data[0].entri.length
-        let newLogbook = logbook.data[0]
+        let len = logbook.data[0].entri.length
+        const newLogbook = logbook.data[0]
         let i = 0
         while (i < len) {
+          console.log('INI I TAU', i)
           entriSchema.getEntri({ _id: newLogbook.entri[i]._id })
             .then((result) => {
               if (result.data[0].tanggal.getDate() === date.getDate()) {
                 newLogbook.entri.splice(i, 1)
                 i--
-
+                len--
+                console.log('YANG BARU', newLogbook)
                 logbookSchema.updateEntriLogbook(condition, newLogbook)
                   .then((result) => {
                     console.log('Success update logbook', result)
@@ -258,7 +260,7 @@ export function removeEntriByDate (req, res, next) {
                     console.error(err)
                   })
 
-                  entriSchema.deleteEntri({ _id: newLogbook.entri[i]._id })
+                entriSchema.deleteEntri({ _id: newLogbook.entri[i]._id })
                   .then((result) => {
                     res.status(200).json({
                       message: 'Entri deleted successfully',
@@ -281,7 +283,7 @@ export function removeEntriByDate (req, res, next) {
               console.error(err)
             })
 
-            i++
+          i++
         }
       })
       .catch((err) => {

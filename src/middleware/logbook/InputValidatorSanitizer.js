@@ -69,7 +69,7 @@ export const deleteEntriById = [
     return entriDAO.getEntri({ _id: value })
       .then((result) => {
         if (result.data.length <= 0) {
-          return Promise.reject('Entri tidak ada.')
+          return Promise.reject(new Error('Entri tidak ada.'))
         }
       })
   })
@@ -80,7 +80,7 @@ export const deleteEntriByDate = [
     return logbookDAO.getLogbook({ _id: value })
       .then((result) => {
         if (result.data.length <= 0) {
-          return Promise.reject('Logbook tidak ada.')
+          return Promise.reject(new Error('Logbook tidak ada.'))
         }
       })
   })
@@ -91,7 +91,7 @@ export const updateEntriById = [
     return entriDAO.getEntri({ _id: value })
       .then((result) => {
         if (result.data.length <= 0) {
-          return Promise.reject('Entri tidak ada.')
+          return Promise.reject(new Error('Entri tidak ada.'))
         }
       })
   }),
