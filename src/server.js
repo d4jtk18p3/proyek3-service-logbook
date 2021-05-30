@@ -25,8 +25,8 @@ app.use('/logbook/logbook', logbookRouter)
 
 // error handling
 app.use((error, req, res, next) => {
-  console.log(error)
-  const status = error.statusCode || 500
+  // console.log(error)
+  const status = error.status || 500
   const message = error.message
   const cause = error.cause || 'Internal Server Error'
   res.status(status).json({

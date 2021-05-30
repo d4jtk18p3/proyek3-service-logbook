@@ -4,7 +4,7 @@ import entriDAO from '../../dao/logbook/Entri'
 
 // CATATAN : File ini berisi middleware untuk memvalidasi dan sanitasi inputan yang dikirim oleh user
 
-/* Validator dan Sanitizer untuk Dosen */
+/* Validator dan Sanitizer untuk Logbook */
 
 export const postNewLogbook = [
   body('nim', 'nim wajib diisi').exists().bail(),
@@ -20,34 +20,88 @@ export const postNewLogbook = [
   body('kode_kelas', 'kode_kelas wajib diisi').exists()
 ]
 
-export const postNewEntri = () => {
-  return [
-    // body('tanggal')
-    // .trim()
-    // .notEmpty().withMessage("tanggal tidak boleh kosong.")
-    // .custom(async(value) => {
-    //   let logbook = await logbookDAO.getLogbook({_id: req.params.id_logbook});
-    //   console.log("udah masuk siss")
-    //     let isExist = await logbook[0].entri.findOne({
-    //         where: {
-    //             tanggal: value
-    //         }
-    //     });
-    //     if(isExist) {
-    //         throw new Error("tanggal is already exist.");
-    //     } else {
-    //         return true;
-    //     }
-    // }),
-  ]
-}
+export const postNewEntri = [
+  body('tanggal')
+    .trim()
+    .notEmpty().withMessage('Tanggal tidak boleh kosong.')
+    .bail()
+    .isDate()
+    .bail(),
+  // .custom((value, { req }) => {
+  //   const query = { _id: req.params.id_logbook }
+  //   logbookDAO.getLogbook(query, function(err, logbook) {
+  //     if(!logbook) {
+  //       return new Error('Logbook tidak ada')
+  //     } else {
+  //       console.log("masuknya ke else", logbook[0].entri.length)
+  //       var i = 0
+  //       for(i = 0; i < logbook[0].entri.length; i++) {
+  //         const entriQuery = { _id: logbook[0].entri[i] }
+  //         entriDAO.getEntri(entriQuery, function(err, entri) {
+  //           if(entri) {
+  //             var stringDate = value.split('/')
+  //             const year = parseInt(stringDate[0], 10)
+  //             const month = parseInt(stringDate[1], 10) - 1 // urutan bulan dimulai dari 0
+  //             const day = parseInt(stringDate[2], 10)
+  //             var date = new Date(year, month, day, 24) // 24nya bakal diapus karena udah dikalkulasi di frontend
+  //             if(date.getTime() === entri[0].tanggal.getTime()) {
+  //               return new Error('Tanggal sudah ada.')
+  //             }
+  //           }
+  //         })
+  //       }
+  //     }
+  //   })
+  // }),
+  body('kegiatan')
+    .trim()
+    .notEmpty().withMessage('Kegiatan tidak boleh kosong'),
+  body('hasil')
+    .trim()
+    .notEmpty().withMessage('Hasil tidak boleh kosong'),
+  body('kesan')
+    .trim()
+    .notEmpty().withMessage('Kesan tidak boleh kosong')
+]
 
 export const deleteEntriById = [
-  param('_id').custom((value) => {
-    return entriDAO.getById(value).then((entri) => {
+  param('id').custom((value) => {
+    entriDAO.getEntri({ _id: value }, function (err, entri) {
+      if (err) {
+        console.error(err)
+      }
+
       if (!entri) {
-        return Promise.reject(new Error('Entri dengan id tersebut tidak ditemukan'))
+        return new Error('Entri dengan id tersebut tidak ditemukan')
       }
     })
   })
+]
+
+export const updateEntriById = [
+  param('id').custom((value) => {
+    entriDAO.getEntri(value, function (err, entri) {
+      if (err) {
+        console.error(err)
+      }
+
+      if (!entri) {
+        return new Error('Entri dengan id tersebut tidak ditemukan')
+      }
+    })
+  }),
+  body('tanggal')
+    .trim()
+    .notEmpty().withMessage('Tanggal tidak boleh kosong.')
+    .bail()
+    .isDate(),
+  body('kegiatan')
+    .trim()
+    .notEmpty().withMessage('Kegiatan tidak boleh kosong'),
+  body('hasil')
+    .trim()
+    .notEmpty().withMessage('Hasil tidak boleh kosong'),
+  body('kesan')
+    .trim()
+    .notEmpty().withMessage('Kesan tidak boleh kosong')
 ]
