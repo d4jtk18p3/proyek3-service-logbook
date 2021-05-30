@@ -7,6 +7,7 @@ import dosenRouter from './routes/Dosen'
 import mahasiswaRouter from './routes/Mahasiswa'
 import entriRouter from './routes/logbook/Entri'
 import logbookRouter from './routes/logbook/Logbook'
+import perkuliahanRouter from './routes/Perkuliahan'
 // import userRouter from './routes/User'
 
 const app = express()
@@ -21,6 +22,7 @@ app.use('/dosen', dosenRouter)
 app.use('/mahasiswa', mahasiswaRouter)
 app.use('/logbook/entri', entriRouter)
 app.use('/logbook/logbook', logbookRouter)
+app.use('/Perkuliahan', perkuliahanRouter)
 // app.use('/user', userRouter)
 
 // error handling

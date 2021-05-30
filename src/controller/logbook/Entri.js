@@ -119,29 +119,104 @@ export const updateEntri = (req, res, next) => {
     next(error)
   }
 }
+export function updateEntriByDate (req, res, next) {
+  const entri = {
+    tanggal: req.body.tanggal,
+    kegiatan: req.body.kegiatan,
+    hasil: req.body.hasil,
+    kesan: req.body.kesan
+  }
+  entriSchema.updateEntri({ tanggal: req.query.tanggal }, entri, function (err, entri) {
+    if (err) {
+      res.json({
+        error: err
+      })
+    }
+    res.json({
+      message: 'Entri updated successfully'
+    })
+  })
+}
 
-export const removeEntri = (req, res, next) => {
-  try {
-    const error = validationResult(req)
-
-    if (!error.isEmpty()) {
-      error.status = 400
-      error.message = error.errors[0].msg
-      throw error
+export function removeEntri (req, res, next) {
+  // Update entris list
+  const condition = { _id: req.params.id_logbook }
+  logbookSchema.getLogbook(condition, function (err, logbook) {
+    if (err) {
+      console.log('Logbook with was not found')
+    } else {
+      console.log('found')
     }
 
-    entriSchema.deleteEntri({ _id: req.params.id }, function (err, entri) {
-      if (err) {
-        res.json({
-          error: err
-        })
+    const delEntri = { _id: req.query.id }
+    const len = logbook.entri.length
+    const newLogbook = logbook
+    for (let i = 0; i < len; i++) {
+      if (newLogbook.entri[i] === delEntri) {
+        newLogbook.entri.splice(i, 1)
+        i--
       }
-
-      res.status(200).json({
-        message: 'Entri deleted successfully'
-      })
+    }
+    logbookSchema.updateEntriLogbook(condition, newLogbook, function (err, res) {
+      if (err) {
+        console.log('Failed to update caused by: ', err)
+      }
+      console.log('Success update:')
+      console.log(res)
     })
-  } catch (error) {
-    next(error)
-  }
+  })
+
+  entriSchema.deleteEntri({ _id: req.query.id }, function (err, entri) {
+    if (err) {
+      res.json({
+        error: err
+      })
+    }
+    res.json({
+      message: 'Entri deleted successfully',
+      entri: entri
+    })
+  })
 }
+
+export function removeEntriByDate (req, res, next) {
+  // Update entris list
+  const condition = { _id: req.params.id_logbook }
+  logbookSchema.getLogbook(condition, function (err, logbook) {
+    if (err) {
+      console.log('Logbook with was not found')
+    } else {
+      console.log('found')
+    }
+
+    const delEntri = { tanggal: req.query.tanggal }
+    const len = logbook.entri.length
+    const newLogbook = logbook
+    for (let i = 0; i < len; i++) {
+      if (newLogbook.entri[i] === delEntri) {
+        newLogbook.entri.splice(i, 1)
+        i--
+      }
+    }
+    logbookSchema.updateEntriLogbook(condition, newLogbook, function (err, res) {
+      if (err) {
+        console.log('Failed to update caused by: ', err)
+      }
+      console.log('Success update:')
+      console.log(res)
+    })
+  })
+
+  entriSchema.deleteEntri({ _id: req.query.id }, function (err, entri) {
+    if (err) {
+      res.json({
+        error: err
+      })
+    }
+    res.json({
+      message: 'Entri deleted successfully',
+      entri: entri
+    })
+  })
+}
+     
