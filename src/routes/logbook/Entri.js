@@ -4,8 +4,8 @@ import express from 'express'
 const router = express.Router()
 router.post('/create/:id_logbook', entriController.createEntri)
 router.get('/:id', entriController.getEntri)
-router.put('/update/:id', entriController.updateEntri)
-router.put('/update-by-date/:tanggal', ValidatorSanitizer.deleteEntriById, entriController.updateEntriByDate)
+router.put('/update/:id', ValidatorSanitizer.updateEntriById, entriController.updateEntri)
+router.put('/update-by-date/:tanggal', ValidatorSanitizer.updateEntriById, entriController.updateEntriByDate)
 router.delete('/delete/:id_logbook', ValidatorSanitizer.deleteEntriById, entriController.removeEntri)
-router.delete('/delete-by-date/:tanggal', ValidatorSanitizer.deleteEntriById, entriController.removeEntriByDate)
+router.delete('/delete-by-date/:id_logbook', ValidatorSanitizer.deleteEntriByDate, entriController.removeEntriByDate)
 export default router

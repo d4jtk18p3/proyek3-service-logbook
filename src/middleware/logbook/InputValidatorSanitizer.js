@@ -68,7 +68,6 @@ export const deleteEntriById = [
   query('id').custom((value) => {
     return entriDAO.getEntri({ _id: value })
       .then((result) => {
-        console.log(value)
         if (result.data.length <= 0) {
           return Promise.reject('Entri tidak ada.')
         }
@@ -76,15 +75,26 @@ export const deleteEntriById = [
   })
 ]
 
+export const deleteEntriByDate = [
+  param('id_logbook').custom((value) => {
+    return logbookDAO.getLogbook({ _id: value })
+      .then((result) => {
+        if (result.data.length <= 0) {
+          return Promise.reject('Logbook tidak ada.')
+        }
+      })
+  })
+]
+
 export const updateEntriById = [
-  // param('id').custom((value) => {
-  //   return entriDAO.getEntri({ _id: value })
-  //     .then((result) => {
-  //       if (result.data.length <= 0) {
-  //         return Promise.reject('Entri tidak ada.')
-  //       }
-  //     })
-  // }),
+  param('id').custom((value) => {
+    return entriDAO.getEntri({ _id: value })
+      .then((result) => {
+        if (result.data.length <= 0) {
+          return Promise.reject('Entri tidak ada.')
+        }
+      })
+  }),
   body('tanggal')
     .trim()
     .notEmpty().withMessage('Tanggal tidak boleh kosong.')
