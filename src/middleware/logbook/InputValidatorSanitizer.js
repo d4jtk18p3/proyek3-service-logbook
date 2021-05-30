@@ -68,6 +68,7 @@ export const deleteEntriById = [
   param('id').custom((value) => {
     return entriDAO.getEntri({ _id: value })
       .then((result) => {
+        console.log("masukk", result.data.length <= 0)
         if (result.data.length <= 0) {
           return Promise.reject('Entri tidak ada.')
         }
