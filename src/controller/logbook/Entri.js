@@ -21,7 +21,7 @@ export const createEntri = (req, res, next) => {
     }
 
     entri._id = mongoose.Types.ObjectId()
-    entriSchema.postEntri (entri)
+    entriSchema.postEntri(entri)
       .then((result) => {
         res.status(200).json({
           message: 'Entri created successfully',
@@ -93,7 +93,7 @@ export const updateEntri = (req, res, next) => {
 
     const error = validationResult(req)
 
-    if(!error.isEmpty()) {
+    if (!error.isEmpty()) {
       error.status = 400
       error.message = error.errors[0].msg
       throw error

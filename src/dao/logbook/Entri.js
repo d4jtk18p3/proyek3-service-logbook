@@ -5,7 +5,9 @@ entriSchema.statics = {
     return new Promise((resolve, reject) => {
       this.create(data, (err, result) => {
         if (err) {
-          reject()
+          reject({
+            error: err
+          })
         } else {
           resolve({
             data: result
@@ -19,7 +21,9 @@ entriSchema.statics = {
     return new Promise((resolve, reject) => {
       this.find(query, (err, documents) => {
         if (err) {
-          reject()
+          reject({
+            error: err
+          })
         } else {
           resolve({
             data: documents
@@ -33,7 +37,9 @@ entriSchema.statics = {
     return new Promise((resolve, reject) => {
       this.findOneAndUpdate(query, { $set: updateData }, { new: true }, (err, result) => {
         if (err) {
-          reject(err)
+          reject({
+            error: err
+          })
         } else {
           resolve({
             data: result
