@@ -14,14 +14,13 @@ export const createEntri = (req, res, next) => {
 
     const error = validationResult(req)
 
-    if(!error.isEmpty()) {
+    if (!error.isEmpty()) {
       error.status = 400
       error.message = error.errors[0].msg
       throw error
     }
 
     entri._id = mongoose.Types.ObjectId()
-
     entriSchema.postEntri (entri)
       .then((result) => {
         res.status(200).json({
@@ -31,7 +30,7 @@ export const createEntri = (req, res, next) => {
       })
       .catch((err) => {
         console.error(err)
-        
+
         const error = {
           status: 400,
           message: 'Failed to create entri'
@@ -65,41 +64,26 @@ export const createEntri = (req, res, next) => {
 }
 
 export const getEntri = (req, res, next) => {
-  // try {
-    // entriSchema.getEntri({ _id: req.params.id }, function (err, entri) {
-    //   if (err) {
-    //     res.json({
-    //       error: err
-    //     })
-    //   }
-    //   res.json({
-    //     entri: entri
-    //   })
-    // })
-
-    entriSchema.getEntri({ _id: req.params.id })
-      .then((result) => {
-        res.status(200).json({
-          entri: result.data
-        })
+  entriSchema.getEntri({ _id: req.params.id })
+    .then((result) => {
+      res.status(200).json({
+        entri: result.data
       })
-      .catch((err) => {
-        console.error(err)
+    })
+    .catch((err) => {
+      console.error(err)
 
-        const error = {
-          status: 404,
-          message: 'Entri not found'
-        }
+      const error = {
+        status: 404,
+        message: 'Entri not found'
+      }
 
-        next(error)
-      })
-  // } catch (error) {
-  //   next(error)
-  // }
+      next(error)
+    })
 }
 
 export const updateEntri = (req, res, next) => {
-  // try {
+  try {
     const entri = {
       tanggal: req.body.tanggal,
       kegiatan: req.body.kegiatan,
@@ -107,13 +91,13 @@ export const updateEntri = (req, res, next) => {
       kesan: req.body.kesan
     }
 
-    // const error = validationResult(req)
+    const error = validationResult(req)
 
-    // if(!error.isEmpty()) {
-    //   error.status = 400
-    //   error.message = error.errors[0].msg
-    //   throw error
-    // }
+    if(!error.isEmpty()) {
+      error.status = 400
+      error.message = error.errors[0].msg
+      throw error
+    }
 
     entriSchema.updateEntri({ _id: req.params.id }, entri)
       .then((result) => {
@@ -131,26 +115,16 @@ export const updateEntri = (req, res, next) => {
 
         next(error)
       })
-    // entriSchema.updateEntri({ _id: req.params.id }, entri, function (err, entri) {
-    //   if (err) {
-    //     res.json({
-    //       error: err
-    //     })
-    //   }
-    //   res.json({
-    //     message: 'Entri updated successfully'
-    //   })
-    // })
-  // } catch (error) {
-  //   next(error)
-  // }
+  } catch (error) {
+    next(error)
+  }
 }
 
 export const removeEntri = (req, res, next) => {
   try {
     const error = validationResult(req)
 
-    if(!error.isEmpty()) {
+    if (!error.isEmpty()) {
       error.status = 400
       error.message = error.errors[0].msg
       throw error
