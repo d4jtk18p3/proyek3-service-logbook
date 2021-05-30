@@ -65,26 +65,26 @@ export const postNewEntri = [
 ]
 
 export const deleteEntriById = [
-  param('id').custom((value) => {
-    return entriDAO.getEntri({ _id: value })
-      .then((result) => {
-        console.log("masukk", result.data.length <= 0)
-        if (result.data.length <= 0) {
-          return Promise.reject('Entri tidak ada.')
-        }
-      })
-  })
+  // param('id').custom((value) => {
+  //   return entriDAO.getEntri({ _id: value })
+  //     .then((result) => {
+  //       console.log(value)
+  //       if (result.data.length <= 0) {
+  //         return Promise.reject('Entri tidak ada.')
+  //       }
+  //     })
+  // })
 ]
 
 export const updateEntriById = [
-  param('id').custom((value) => {
-    return entriDAO.getEntri({ _id: value })
-      .then((result) => {
-        if (result.data.length <= 0) {
-          return Promise.reject('Entri tidak ada.')
-        }
-      })
-  }),
+  // param('id').custom((value) => {
+  //   return entriDAO.getEntri({ _id: value })
+  //     .then((result) => {
+  //       if (result.data.length <= 0) {
+  //         return Promise.reject('Entri tidak ada.')
+  //       }
+  //     })
+  // }),
   body('tanggal')
     .trim()
     .notEmpty().withMessage('Tanggal tidak boleh kosong.')

@@ -41,7 +41,7 @@ export const createEntri = (req, res, next) => {
 
     // Get logbook
     const condition = { _id: req.params.id_logbook }
-    var logbook = {}
+    let logbook = {}
     logbookSchema.getLogbook(condition)
       .then((result) => {
         logbook = {
@@ -54,7 +54,7 @@ export const createEntri = (req, res, next) => {
         newLogbook.entri[len] = entri._id.toString()
         logbookSchema.updateEntriLogbook(condition, newLogbook)
           .then((result) => {
-            console.log("Success update entri: ", result)
+            console.log('Success update entri: ', result)
           })
           .catch(() => {
             const error = {
@@ -164,24 +164,23 @@ export function removeEntri (req, res, next) {
 
     // Update entris list
     const condition = { _id: req.params.id_logbook }
-    var logbook = {}
+    let logbook = {}
     logbookSchema.getLogbook(condition)
       .then((result) => {
         logbook = {
           data: result.data
         }
 
-        const delCondition = { _id: req.query.id }
+        const delEntri = { _id: req.query.id }
         const len = logbook.data[0].entri.length
-        const newLogbook = logbook
+        const newLogbook = logbook.data[0]
         for (let i = 0; i < len; i++) {
           if (newLogbook.entri[i] === delEntri) {
             newLogbook.entri.splice(i, 1)
             i--
           }
         }
-        
-        logbookSchema.updateEntriLogbook(delCondition, newLogbook)
+        logbookSchema.updateEntriLogbook(condition, newLogbook)
           .then((result) => {
             console.log('Success update', result)
           })
@@ -193,7 +192,7 @@ export function removeEntri (req, res, next) {
         console.error('Logbook not found')
       })
 
-    entriSchema.deleteEntri(delCondition)
+    entriSchema.deleteEntri({ _id: req.params.id_logbook })
       .then((result) => {
         res.status(200).json({
           message: 'Entri deleted successfully',
