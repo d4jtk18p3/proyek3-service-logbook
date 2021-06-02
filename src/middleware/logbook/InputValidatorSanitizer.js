@@ -7,17 +7,26 @@ import entriDAO from '../../dao/logbook/Entri'
 /* Validator dan Sanitizer untuk Logbook */
 
 export const postNewLogbook = [
-  body('nim', 'nim wajib diisi').exists().bail(),
-  body('kelas_proyek', 'Kelas proyek wajib diisi').exists().bail(),
-  body('nim', 'kelas_proyek').custom((value) => {
-    return logbookDAO.getLogbook(value).then((logbook) => {
-      if (logbook) {
-        return Promise.reject(new Error('Logbook sudah terdaftar'))
-      }
-    })
-  }),
-  body('nama', 'Nama dosen wajib diisi').exists(),
-  body('kode_kelas', 'kode_kelas wajib diisi').exists()
+  body('nama')
+    .notEmpty().withMessage('Nama tidak boleh kosong.'),
+  body('nim')
+    .notEmpty().withMessage('NIM tidak boleh kosong'),
+  body('kode_kelas')
+    .notEmpty().withMessage('Kode kelas tidak boleh kosong'),
+  body('kelas_proyek')
+    .notEmpty().withMessage('Kelas Proyek tidak boleh kosong')
+  // body('nim', 'nim wajib diisi').exists().bail(),
+  // body('kelas_proyek', 'Kelas proyek wajib diisi').exists().bail(),
+  // body('nim', 'kelas_proyek').custom((value) => {
+  //   return logbookDAO.getLogbook(value).then((logbook) => {
+  //     if (logbook) {
+  //       console.log(logbook)
+  //       return Promise.reject(new Error('Logbook sudah terdaftar'))
+  //     }
+  //   })
+  // }),
+  // body('nama', 'Nama dosen wajib diisi').exists(),
+  // body('kode_kelas', 'kode_kelas wajib diisi').exists()
 ]
 
 /* Validator dan Sanitizer untuk Entri */
