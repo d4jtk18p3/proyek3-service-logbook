@@ -5,8 +5,14 @@ import logbookSchema from '../../dao/logbook/Logbook'
 
 export const createEntri = (req, res, next) => {
   try {
+    const stringDate = req.body.tanggal.split('/')
+    const year = parseInt(stringDate[0], 10)
+    const month = parseInt(stringDate[1], 10) - 1 // urutan bulan dimulai dari 0
+    const day = parseInt(stringDate[2], 10)
+    const date = new Date(year, month, day, 7)
+
     const entri = {
-      tanggal: req.body.tanggal,
+      tanggal: date,
       kegiatan: req.body.kegiatan,
       hasil: req.body.hasil,
       kesan: req.body.kesan

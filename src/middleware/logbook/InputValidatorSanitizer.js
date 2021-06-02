@@ -27,32 +27,33 @@ export const postNewEntri = [
     .bail()
     .isDate()
     .bail(),
-  // .custom((value, { req }) => {
-  //   const query = { _id: req.params.id_logbook }
-  //   logbookDAO.getLogbook(query, function(err, logbook) {
-  //     if(!logbook) {
-  //       return new Error('Logbook tidak ada')
-  //     } else {
-  //       var i = 0
-  //       for(i = 0; i < logbook[0].entri.length; i++) {
-  //         const entriQuery = { _id: logbook[0].entri[i] }
-  //         entriDAO.getEntri(entriQuery)
-  //           .then((entri) => {
-  //             if(entri) {
-  //               var stringDate = value.split('/')
-  //               const year = parseInt(stringDate[0], 10)
-  //               const month = parseInt(stringDate[1], 10) - 1 // urutan bulan dimulai dari 0
-  //               const day = parseInt(stringDate[2], 10)
-  //               var date = new Date(year, month, day, 24) // 24nya bakal diapus karena udah dikalkulasi di frontend
-  //               if(date.getTime() === entri.data[0].tanggal.getTime()) {
-  //                 return new Error('Tanggal sudah ada.')
-  //               }
-  //             }
-  //           })
-  //       }
-  //     }
-  //   })
-  // }),
+    // .custom((value, { req }) => {
+    //   return logbookDAO.getLogbook({ _id: req.params.id_logbook })
+    //     .then((logbook) => {
+    //       if(logbook.data.length > 0) {
+    //         var i = 0
+    //         for(i = 0; i < logbook.data[0].entri.length; i++) {
+    //           const entriQuery = { _id: logbook.data[0].entri[i] }
+    //           entriDAO.getEntri(entriQuery)
+    //             .then((entri) => {
+    //               var stringDate = value.split('/')
+    //               const year = parseInt(stringDate[0], 10)
+    //               const month = parseInt(stringDate[1], 10) - 1 // urutan bulan dimulai dari 0
+    //               const day = parseInt(stringDate[2], 10)
+    //               var date = new Date(year, month, day, 7) // tambah 7 supaya 00:00 di GMT
+    //               if(entri) {
+    //                 if(date.getTime() === entri.data[0].tanggal.getTime()) {
+    //                   return Promise.reject(new Error('Tanggal sudah ada.'))
+    //                 }
+    //               }
+    //             })
+    //             .catch((err) => {
+    //               console.error(err)
+    //             })
+    //         }
+    //       }
+    //     })
+    //   }),
   body('kegiatan')
     .trim()
     .notEmpty().withMessage('Kegiatan tidak boleh kosong'),
