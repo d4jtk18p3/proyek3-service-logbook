@@ -7,6 +7,7 @@ export function createLogbook (req, res, next) {
     kode_kelas: req.body.kode_kelas,
     kelas_proyek: req.body.kelas_proyek
   }
+
   logbookSchema.postLogbook(logbook)
     .then((result) => {
       res.status(200).json({

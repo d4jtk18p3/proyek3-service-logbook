@@ -7,7 +7,6 @@ module.exports = {
           tanggal: {
             bsonType: "date",
             description: "must be a date and is required",
-            unique: true
           },
           kegiatan: {
             bsonType: "string",
