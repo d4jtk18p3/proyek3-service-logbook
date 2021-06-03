@@ -19,7 +19,7 @@ export const getKelasByMatkul = async (req, res, next) => {
 export const getMatkulById = async (req, res, next) => {
   try {
     const id = req.params.id
-    const resultMatkul = await PerkuliahanDAO.getMatkulById(id)
+    const resultMatkul = await PerkuliahanDAO.getPerkuliahanById(id)
     if (resultMatkul instanceof Error) {
       throw resultMatkul
     }
@@ -40,10 +40,31 @@ export const getPerkuliahanByNip = async (req, res, next) => {
       throw resultPerkuliahan
     }
     res.status(200).json({
-      message: 'Sukses retrieve data mata perkuliahan by nip',
+      message: 'Sukses retrieve data perkuliahan by nip',
       data: resultPerkuliahan
     })
   } catch (error) {
     next(error)
+  }
+}
+
+export const getPerkuliahanDiampu = async (req, res, next) => {
+  try {
+    const nip = req.params.nip // nanti ini diganti kauth
+    const resultPerkuliahan = await PerkuliahanDAO.getPerkuliahanByNip(nip)
+    if (resultPerkuliahan instanceof Error) {
+      throw resultPerkuliahan
+    }
+    const resultPerkuliahanById = []
+    for ( let i=0; i<resultPerkuliahan.length; i++){
+      let result = await PerkuliahanDAO.getPerkuliahanById(resultPerkuliahan[i])
+      resultPerkuliahanById.push(result)
+    }
+    res.status(200).json({
+      message: 'Sukses retrieve data perkuliahan by nip',
+      data: resultPerkuliahanById
+    })
+  } catch (error) {
+    message: error
   }
 }
