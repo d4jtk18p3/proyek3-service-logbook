@@ -5,25 +5,23 @@ export const getMatkulById = async (req, res, next) => {
     const nip = req.params.nip // nanti ini diganti kauth
     const resultPerkuliahan = await PerkuliahanDAO.getPerkuliahanByNip(nip)
     if (resultPerkuliahan instanceof Error) {
-        throw resultPerkuliahan
+      throw resultPerkuliahan
     }
     const resultPerkuliahanById = []
-    for ( let i=0; i<resultPerkuliahan.length; i++){
-        let result = await PerkuliahanDAO.getPerkuliahanById(resultPerkuliahan[i])
-        if(result!=null){
-            resultPerkuliahanById.push(result)
-        }
+    for (let i = 0; i < resultPerkuliahan.length; i++) {
+      const result = await PerkuliahanDAO.getPerkuliahanById(resultPerkuliahan[i])
+      if (result != null) {
+        resultPerkuliahanById.push(result)
+      }
     }
     if (resultPerkuliahanById instanceof Error) {
-        throw resultPerkuliahanById
+      throw resultPerkuliahanById
     }
     const resultMatkul = []
-    console.log(resultPerkuliahanById+"tayooo")
-    for ( let i=0; i<resultPerkuliahanById.length; i++){
-      let result = await mataKuliahDAO.getMataKuliahById(resultPerkuliahanById[i].id_mata_kuliah)
+    for (let i = 0; i < resultPerkuliahanById.length; i++) {
+      const result = await mataKuliahDAO.getMataKuliahById(resultPerkuliahanById[i].id_mata_kuliah)
       resultMatkul.push(result)
     }
-    
     if (resultMatkul instanceof Error) {
       throw resultMatkul
     }

@@ -56,15 +56,17 @@ export const getPerkuliahanDiampu = async (req, res, next) => {
       throw resultPerkuliahan
     }
     const resultPerkuliahanById = []
-    for ( let i=0; i<resultPerkuliahan.length; i++){
-      let result = await PerkuliahanDAO.getPerkuliahanById(resultPerkuliahan[i])
-      resultPerkuliahanById.push(result)
+    for (let i = 0; i < resultPerkuliahan.length; i++) {
+      const result = await PerkuliahanDAO.getPerkuliahanById(resultPerkuliahan[i])
+      if (result != null) {
+        resultPerkuliahanById.push(result)
+      }
     }
     res.status(200).json({
       message: 'Sukses retrieve data perkuliahan by nip',
       data: resultPerkuliahanById
     })
   } catch (error) {
-    message: error
+    next(error)
   }
 }

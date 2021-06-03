@@ -23,7 +23,7 @@ export const getPerkuliahanById = async (id) => {
     const perkuliahan = await Perkuliahan.findOne({
       where: {
         id: id,
-        id_mata_kuliah: ['6TKO1083','6TKO2073', '6TKO3073', '6TKO4063', '6TKO5073', '6TIN2043', '6TIN4053', '6TIN6063']
+        id_mata_kuliah: ['6TKO1083', '6TKO2073', '6TKO3073', '6TKO4063', '6TKO5073', '6TIN2043', '6TIN4053', '6TIN6063']
       }
     })
     return perkuliahan
@@ -32,12 +32,12 @@ export const getPerkuliahanById = async (id) => {
   }
 }
 
-export const getPerkuliahanByIdMatkul = async (id, id_mata_kuliah) => {
+export const getPerkuliahanByIdMatkul = async (id, idMataKuliah) => {
   try {
     const perkuliahan = await Perkuliahan.findOne({
       where: {
         id: id,
-        id_mata_kuliah: id_mata_kuliah,
+        id_mata_kuliah: idMataKuliah
       }
     })
     return perkuliahan
