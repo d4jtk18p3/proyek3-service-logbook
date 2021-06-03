@@ -18,10 +18,10 @@ export const postNewLogbook = [
   body('nim').custom((value, { req }) => {
     return logbookDAO.getLogbook({ nim: value })
       .then((logbook) => {
-        if(logbook.data.length > 0) {
-          let i = 0;
-          while(i < logbook.data.length) {
-            if(logbook.data[i].kelas_proyek === req.body.kelas_proyek) {
+        if (logbook.data.length > 0) {
+          let i = 0
+          while (i < logbook.data.length) {
+            if (logbook.data[i].kelas_proyek === req.body.kelas_proyek) {
               return Promise.reject(new Error('Logbook sudah ada.'))
             }
 
@@ -30,18 +30,6 @@ export const postNewLogbook = [
         }
       })
   })
-  // body('nim', 'nim wajib diisi').exists().bail(),
-  // body('kelas_proyek', 'Kelas proyek wajib diisi').exists().bail(),
-  // body('nim', 'kelas_proyek').custom((value) => {
-  //   return logbookDAO.getLogbook(value).then((logbook) => {
-  //     if (logbook) {
-  //       console.log(logbook)
-  //       return Promise.reject(new Error('Logbook sudah terdaftar'))
-  //     }
-  //   })
-  // }),
-  // body('nama', 'Nama dosen wajib diisi').exists(),
-  // body('kode_kelas', 'kode_kelas wajib diisi').exists()
 ]
 
 /* Validator dan Sanitizer untuk Entri */
@@ -56,23 +44,22 @@ export const postNewEntri = [
     .custom((value, { req }) => {
       return logbookDAO.getLogbook({ _id: req.params.id_logbook })
         .then(async (logbook) => {
-          if(logbook.data.length > 0) {
+          if (logbook.data.length > 0) {
             const stringDate = value.split('/')
             const year = parseInt(stringDate[0], 10)
             const month = parseInt(stringDate[1], 10) - 1 // urutan bulan dimulai dari 0
             const day = parseInt(stringDate[2], 10)
             const date = new Date(year, month, day, 7) // tambah 7 supaya 00:00 di GMT
-            
             const entriIDs = logbook.data[0].entri
             const entris = await Promise.all(entriIDs.map(id => entriDAO.getEntri({ _id: id })))
-            for(let i = 0; i < entris.length; i++) {
-              if(date.getTime() === entris[i].data[0].tanggal.getTime()) {
+            for (let i = 0; i < entris.length; i++) {
+              if (date.getTime() === entris[i].data[0].tanggal.getTime()) {
                 return Promise.reject(new Error('Tanggal sudah ada.'))
               }
             }
           }
         })
-      }),
+    }),
   body('kegiatan')
     .trim()
     .notEmpty().withMessage('Kegiatan tidak boleh kosong'),

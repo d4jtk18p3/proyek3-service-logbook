@@ -9,15 +9,12 @@ export const createLogbook = (req, res, next) => {
       kode_kelas: req.body.kode_kelas,
       kelas_proyek: req.body.kelas_proyek
     }
-  
     const error = validationResult(req)
-  
     if (!error.isEmpty()) {
       error.status = 400
       error.message = error.errors[0].msg
       throw error
     }
-  
     logbookSchema.postLogbook(logbook)
       .then((result) => {
         res.status(200).json({
