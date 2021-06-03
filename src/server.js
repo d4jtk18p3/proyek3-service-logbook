@@ -8,6 +8,8 @@ import mahasiswaRouter from './routes/Mahasiswa'
 import entriRouter from './routes/logbook/Entri'
 import logbookRouter from './routes/logbook/Logbook'
 import perkuliahanRouter from './routes/Perkuliahan'
+import mataKuliahRouter from './routes/Mata_Kuliah'
+import kelasRouter from './routes/kelas'
 // import userRouter from './routes/User'
 
 const app = express()
@@ -22,7 +24,9 @@ app.use('/dosen', dosenRouter)
 app.use('/mahasiswa', mahasiswaRouter)
 app.use('/logbook/entri', entriRouter)
 app.use('/logbook/logbook', logbookRouter)
-app.use('/Perkuliahan', perkuliahanRouter)
+app.use('/perkuliahan', perkuliahanRouter)
+app.use('/mata-kuliah', mataKuliahRouter)
+app.use('/kelas', kelasRouter)
 // app.use('/user', userRouter)
 
 // error handling

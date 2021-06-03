@@ -1,7 +1,7 @@
 import Perkuliahan from '@proyek3/postgres-database/models/Perkuliahan'
 import Pengajar from '@proyek3/postgres-database/models/Pengajar'
 
-export const getKelasByMatkul = async (idMataKuliah) => {
+export const getPerkuliahanKelasByMatkul = async (idMataKuliah) => {
   try {
     const perkuliahan = await Perkuliahan.findAll({
       where: {
@@ -18,23 +18,33 @@ export const getKelasByMatkul = async (idMataKuliah) => {
   }
 }
 
-export const getMatkulById = async (id) => {
+export const getPerkuliahanById = async (id) => {
   try {
-    const perkuliahan = await Perkuliahan.findAll({
+    const perkuliahan = await Perkuliahan.findOne({
       where: {
-        id: id
+        id: id,
+        id_mata_kuliah: ['6TKO1083', '6TKO2073', '6TKO3073', '6TKO4063', '6TKO5073', '6TIN2043', '6TIN4053', '6TIN6063']
       }
     })
-    const arrMatkul = []
-    for (let i = 0; i < perkuliahan.length; i++) {
-      arrMatkul.push(perkuliahan[i].id_mata_kuliah)
-    }
-    return arrMatkul
+    return perkuliahan
   } catch (error) {
     return Promise.reject(error)
   }
 }
 
+export const getPerkuliahanByIdMatkul = async (id, idMataKuliah) => {
+  try {
+    const perkuliahan = await Perkuliahan.findOne({
+      where: {
+        id: id,
+        id_mata_kuliah: idMataKuliah
+      }
+    })
+    return perkuliahan
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
 export const getPerkuliahanByNip = async (nip) => {
   try {
     const resultPengajar = await Pengajar.findAll({
