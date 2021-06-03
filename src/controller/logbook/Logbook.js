@@ -13,7 +13,6 @@ export const createLogbook = (req, res, next) => {
     const error = validationResult(req)
   
     if (!error.isEmpty()) {
-      console.error(error)
       error.status = 400
       error.message = error.errors[0].msg
       throw error
