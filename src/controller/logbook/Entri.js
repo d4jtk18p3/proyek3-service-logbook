@@ -104,8 +104,14 @@ export const getEntri = (req, res, next) => {
 
 export const updateEntri = (req, res, next) => {
   try {
+    const stringDate = req.body.tanggal.split('/')
+    const year = parseInt(stringDate[0], 10)
+    const month = parseInt(stringDate[1], 10) - 1 // urutan bulan dimulai dari 0
+    const day = parseInt(stringDate[2], 10)
+    const date = new Date(year, month, day, 7)
+
     const entri = {
-      tanggal: req.body.tanggal,
+      tanggal: date,
       kegiatan: req.body.kegiatan,
       hasil: req.body.hasil,
       kesan: req.body.kesan
@@ -119,7 +125,7 @@ export const updateEntri = (req, res, next) => {
       throw error
     }
 
-    entriSchema.updateEntri({ _id: req.params.id }, entri)
+    entriSchema.updateEntri({ _id: req.query.id }, entri)
       .then((result) => {
         res.status(200).json({
           message: 'Entri updated successfully',

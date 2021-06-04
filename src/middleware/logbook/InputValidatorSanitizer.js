@@ -103,19 +103,51 @@ export const deleteEntriByDate = [
 ]
 
 export const updateEntriById = [
-  param('id').custom((value) => {
-    return entriDAO.getEntri({ _id: value })
-      .then((result) => {
-        if (result.data.length <= 0) {
-          return Promise.reject(new Error('Entri tidak ditemukan.'))
-        }
-      })
-  }),
+  param('id_logbook')
+    .custom((value) => {
+      return logbookDAO.getLogbook({ _id: value })
+        .then((logbook) => {
+          if (logbook.data.length <= 0) {
+            return Promise.reject(new Error('Logbook tidak ada.'))
+          }
+        })
+    }),
+  query('id')
+    .custom((value) => {
+      return entriDAO.getEntri({ _id: value })
+        .then((result) => {
+          if (result.data.length <= 0) {
+            return Promise.reject(new Error('Entri tidak ditemukan.'))
+          }
+        })
+    }),
   body('tanggal')
     .trim()
     .notEmpty().withMessage('Tanggal tidak boleh kosong.')
     .bail()
-    .isDate().withMessage('Format tanggal salah.'),
+    .isDate().withMessage('Format tanggal salah.')
+    .bail()
+    .custom((value, { req }) => {
+      return logbookDAO.getLogbook({ _id: req.params.id_logbook })
+        .then(async (logbook) => {
+          if (logbook.data.length > 0) {
+            const stringDate = value.split('/')
+            const year = parseInt(stringDate[0], 10)
+            const month = parseInt(stringDate[1], 10) - 1 // urutan bulan dimulai dari 0
+            const day = parseInt(stringDate[2], 10)
+            const date = new Date(year, month, day, 7) // tambah 7 supaya 00:00 di GMT
+            const entriIDs = logbook.data[0].entri
+            const entris = await Promise.all(entriIDs.map(id => entriDAO.getEntris({ _id: id })))
+            for (let i = 0; i < entris.length; i++) {
+              if (req.query.id !== entris[i].data[0]._id) {
+                if (date.getTime() === entris[i].data[0].tanggal.getTime()) {
+                  return Promise.reject(new Error('Tanggal sudah ada.'))
+                }
+              }
+            }
+          }
+        })
+    }),
   body('kegiatan')
     .trim()
     .notEmpty().withMessage('Kegiatan tidak boleh kosong'),
