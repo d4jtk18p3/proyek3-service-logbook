@@ -75,6 +75,7 @@ export const createEntri = (req, res, next) => {
           status: 404,
           message: 'Logbook not found'
         }
+
         console.error(error)
       })
   } catch (error) {

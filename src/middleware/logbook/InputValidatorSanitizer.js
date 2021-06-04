@@ -43,6 +43,15 @@ export const postNewEntri = [
     .bail()
     .custom((value, { req }) => {
       return logbookDAO.getLogbook({ _id: req.params.id_logbook })
+        .then((logbook) => {
+          if (logbook.data.length <= 0) {
+            return Promise.reject(new Error('Logbook tidak ada.'))
+          }
+        })
+    })
+    .bail()
+    .custom((value, { req }) => {
+      return logbookDAO.getLogbook({ _id: req.params.id_logbook })
         .then(async (logbook) => {
           if (logbook.data.length > 0) {
             const stringDate = value.split('/')
@@ -51,7 +60,7 @@ export const postNewEntri = [
             const day = parseInt(stringDate[2], 10)
             const date = new Date(year, month, day, 7) // tambah 7 supaya 00:00 di GMT
             const entriIDs = logbook.data[0].entri
-            const entris = await Promise.all(entriIDs.map(id => entriDAO.getEntri({ _id: id })))
+            const entris = await Promise.all(entriIDs.map(id => entriDAO.getEntris({ _id: id })))
             for (let i = 0; i < entris.length; i++) {
               if (date.getTime() === entris[i].data[0].tanggal.getTime()) {
                 return Promise.reject(new Error('Tanggal sudah ada.'))
