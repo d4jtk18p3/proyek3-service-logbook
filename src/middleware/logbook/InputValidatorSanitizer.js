@@ -139,7 +139,7 @@ export const updateEntriById = [
             const entriIDs = logbook.data[0].entri
             const entris = await Promise.all(entriIDs.map(id => entriDAO.getEntris({ _id: id })))
             for (let i = 0; i < entris.length; i++) {
-              if (req.query.id != entris[i].data[0]._id) {
+              if (req.query.id !== entris[i].data[0]._id) {
                 if (date.getTime() === entris[i].data[0].tanggal.getTime()) {
                   return Promise.reject(new Error('Tanggal sudah ada.'))
                 }
