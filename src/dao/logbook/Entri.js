@@ -17,6 +17,20 @@ entriSchema.statics = {
 
   getEntri: function (query) {
     return new Promise((resolve, reject) => {
+      this.find(query, (err, documents) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve({
+            data: documents
+          })
+        }
+      })
+    })
+  },
+
+  getEntris: function (query) {
+    return new Promise((resolve, reject) => {
       setTimeout(() => {
         this.find(query, (err, documents) => {
           if (err) {
