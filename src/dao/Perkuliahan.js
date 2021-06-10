@@ -23,7 +23,7 @@ export const getPerkuliahanById = async (id) => {
     const perkuliahan = await Perkuliahan.findOne({
       where: {
         id: id,
-        id_mata_kuliah: ['6TKO1083', '6TKO2073', '6TKO3073', '6TKO4063', '6TKO5073', '6TIN2043', '6TIN4053', '6TIN6063']
+        id_mata_kuliah: ['16TKO1083', '16TKO2073', '16TKO3073', '16TKO4063', '16TKO5073', '16TIN2043', '16TIN4053', '16TIN6063']
       }
     })
     return perkuliahan

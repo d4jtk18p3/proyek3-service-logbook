@@ -10,6 +10,7 @@ import logbookRouter from './routes/logbook/Logbook'
 import perkuliahanRouter from './routes/Perkuliahan'
 import mataKuliahRouter from './routes/Mata_Kuliah'
 import kelasRouter from './routes/kelas'
+import studiRouter from './routes/studi'
 // import userRouter from './routes/User'
 
 const app = express()
@@ -27,6 +28,7 @@ app.use('/logbook/logbook', logbookRouter)
 app.use('/perkuliahan', perkuliahanRouter)
 app.use('/mata-kuliah', mataKuliahRouter)
 app.use('/kelas', kelasRouter)
+app.use('/studi', studiRouter)
 // app.use('/user', userRouter)
 
 // error handling
