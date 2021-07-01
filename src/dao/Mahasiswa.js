@@ -1,11 +1,11 @@
-import Mahasiswa from '../models/Mahasiswa'
+import Mahasiswa from '@proyek3/postgres-database/models/Mahasiswa'
 import sequelize from '../db.js'
 
-export const findOneMahasiswaByNIM = async (NIM) => {
+export const findOneMahasiswaByNIM = async (nim) => {
   try {
     const mahasiswa = await Mahasiswa.findAll({
       where: {
-        NIM
+        nim
       }
     })
     return mahasiswa[0]

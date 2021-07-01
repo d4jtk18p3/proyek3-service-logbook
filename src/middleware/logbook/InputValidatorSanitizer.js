@@ -42,16 +42,7 @@ export const postNewEntri = [
     .isDate().withMessage('Format tanggal salah.')
     .bail()
     .custom((value, { req }) => {
-      return logbookDAO.getLogbook({ _id: req.params.id_logbook })
-        .then((logbook) => {
-          if (logbook.data.length <= 0) {
-            return Promise.reject(new Error('Logbook tidak ada.'))
-          }
-        })
-    })
-    .bail()
-    .custom((value, { req }) => {
-      return logbookDAO.getLogbook({ _id: req.params.id_logbook })
+      return logbookDAO.getLogbook({ nim: req.params.nim })
         .then(async (logbook) => {
           if (logbook.data.length > 0) {
             const stringDate = value.split('/')

@@ -34,7 +34,7 @@ module.exports = {
             description: "must be a string and is required"
           },
           nim: {
-            bsonType : "int",
+            bsonType : "string",
             description: "must be a number and is required"
           },
           kode_kelas: {

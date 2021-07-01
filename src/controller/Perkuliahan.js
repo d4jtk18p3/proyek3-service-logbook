@@ -1,4 +1,5 @@
 import * as PerkuliahanDAO from '../dao/Perkuliahan'
+import * as StudiDAO from '../dao/Studi'
 
 export const getKelasByMatkul = async (req, res, next) => {
   try {
@@ -65,6 +66,44 @@ export const getPerkuliahanDiampu = async (req, res, next) => {
     res.status(200).json({
       message: 'Sukses retrieve data perkuliahan by nip',
       data: resultPerkuliahanById
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
+// ini pindahin ke perkuliahan
+export const getPerkuliahanProyekByNim = async (req, res, next) => {
+  try {
+    const nim = req.params.nim // nanti ini diganti kauth
+    const resultStudi = await StudiDAO.getStudiByIdMahasiswa(nim)
+    if (resultStudi instanceof Error) {
+      throw resultStudi
+    }
+    const resultIdPerkuliahan = []
+    for (let i = 0; i < resultStudi.length; i++) {
+      const result = resultStudi[i].id_perkuliahan
+      if (result != null) {
+        resultIdPerkuliahan.push(result)
+      }
+    }
+    console.log(resultIdPerkuliahan)
+    if (resultIdPerkuliahan instanceof Error) {
+      throw resultIdPerkuliahan
+    }
+    const resultMatkul = []
+    for (let i = 0; i < resultIdPerkuliahan.length; i++) {
+      const result = await PerkuliahanDAO.getPerkuliahanById(resultIdPerkuliahan[i])
+      if (result != null) {
+        resultMatkul.push(result)
+      }
+    }
+    if (resultMatkul instanceof Error) {
+      throw resultMatkul
+    }
+    res.status(200).json({
+      message: 'Sukses retrieve data perkuliahan',
+      data: resultMatkul
     })
   } catch (error) {
     next(error)

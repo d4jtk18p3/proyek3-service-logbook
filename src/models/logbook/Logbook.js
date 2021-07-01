@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 const Schema = mongoose.Schema
 const logbookSchema = new Schema({
   nama: String,
-  nim: Number,
+  nim: String,
   kode_kelas: Number,
   kelas_proyek: String,
   entri: [

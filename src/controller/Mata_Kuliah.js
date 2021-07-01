@@ -1,5 +1,7 @@
 import * as mataKuliahDAO from '../dao/Mata_Kuliah'
 import * as PerkuliahanDAO from '../dao/Perkuliahan'
+
+// get matkul yang diampu
 export const getMatkulById = async (req, res, next) => {
   try {
     const nip = req.params.nip // nanti ini diganti kauth

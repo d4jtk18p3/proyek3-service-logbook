@@ -2,6 +2,8 @@ import mongoose from 'mongoose'
 import { validationResult } from 'express-validator'
 import entriSchema from '../../dao/logbook/Entri'
 import logbookSchema from '../../dao/logbook/Logbook'
+import * as StudiDAO from '../../dao/Studi'
+import * as PerkuliahanDAO from '../../dao/Perkuliahan'
 
 export const createEntri = (req, res, next) => {
   try {
@@ -10,7 +12,6 @@ export const createEntri = (req, res, next) => {
     const month = parseInt(stringDate[1], 10) - 1 // urutan bulan dimulai dari 0
     const day = parseInt(stringDate[2], 10)
     const date = new Date(year, month, day, 7)
-
     const entri = {
       tanggal: date,
       kegiatan: req.body.kegiatan,
@@ -44,38 +45,80 @@ export const createEntri = (req, res, next) => {
 
         next(error)
       })
-
-    // Get logbook
-    const condition = { _id: req.params.id_logbook }
-    let logbook = {}
-    logbookSchema.getLogbook(condition)
+    const nim = req.params.nim
+    const resultStudi = []
+    StudiDAO.getStudiByIdMahasiswa(nim)
       .then((result) => {
-        logbook = {
-          data: result.data
+        for (let i = 0; i < result.length; i++) {
+          resultStudi.push(result[i])
         }
-
-        // Update entri list
-        const newLogbook = logbook.data[0]
-        const len = logbook.data[0].entri.length
-        newLogbook.entri[len] = entri._id.toString()
-        logbookSchema.updateEntriLogbook(condition, newLogbook)
-          .then((result) => {
-            console.log('Success update entri: ', result)
-          })
-          .catch(() => {
-            const error = {
-              status: 404,
-              message: 'Failed to update logbook'
-            }
-            console.error(error)
-          })
+        const resultIdPerkuliahan = []
+        for (let i = 0; i < resultStudi.length; i++) {
+          const result = resultStudi[i].id_perkuliahan
+          if (result != null) {
+            resultIdPerkuliahan.push(result)
+          }
+        }
+        if (resultIdPerkuliahan instanceof Error) {
+          throw resultIdPerkuliahan
+        }
+        const resultMatkul = []
+        for (let i = 0; i < resultIdPerkuliahan.length; i++) {
+          PerkuliahanDAO.getPerkuliahanById(resultIdPerkuliahan[i])
+            .then((result) => {
+              if (result != null) {
+                resultMatkul.push(result)
+              }
+              if (i === resultIdPerkuliahan.length - 1) {
+                const condition = { nim: req.params.nim, kelas_proyek: resultMatkul[resultMatkul.length - 1].id_mata_kuliah }
+                let logbook = {}
+                logbookSchema.getLogbook(condition)
+                  .then((result) => {
+                    logbook = {
+                      data: result.data
+                    }
+                    // Update entri list
+                    const newLogbook = logbook.data[0]
+                    const len = logbook.data[0].entri.length
+                    newLogbook.entri[len] = entri._id.toString()
+                    logbookSchema.updateEntriLogbook(condition, newLogbook)
+                      .then((result) => {
+                        console.log('Success update entri: ', result)
+                      })
+                      .catch(() => {
+                        const error = {
+                          status: 404,
+                          message: 'Failed to update logbook'
+                        }
+                        console.error(error)
+                      })
+                  })
+                  .catch(() => {
+                    const error = {
+                      status: 404,
+                      message: 'Logbook not found'
+                    }
+                    console.error(error)
+                  })
+              }
+            })
+            .catch(() => {
+              const error = {
+                status: 404,
+                message: 'Perkuliahan not found'
+              }
+              console.error(error)
+            })
+        }
+        if (resultMatkul instanceof Error) {
+          throw resultMatkul
+        }
       })
       .catch(() => {
         const error = {
           status: 404,
-          message: 'Logbook not found'
+          message: 'Studi not found'
         }
-
         console.error(error)
       })
   } catch (error) {
@@ -92,12 +135,10 @@ export const getEntri = (req, res, next) => {
     })
     .catch((err) => {
       console.error(err)
-
       const error = {
         status: 404,
         message: 'Entri not found'
       }
-
       next(error)
     })
 }
