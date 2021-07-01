@@ -27,16 +27,14 @@ export const getStudiProyek = async (id) => {
   }
 }
 
-export const insertOneStudi = async (id_perkuliahan, id_mahasiswa) => {
+export const insertOneStudi = async (idPerkuliahan, idMahasiswa) => {
   try {
-    console.log("HEEEEEEEEEEEEEEEEEE" + id_mahasiswa + " " +id_perkuliahan)
     const studi = await Studi.create({
-      id_mahasiswa,
-      id_perkuliahan
+      idMahasiswa,
+      idPerkuliahan
     })
     return studi
   } catch (error) {
     console.error(error)
   }
 }
-

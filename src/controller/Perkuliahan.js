@@ -93,12 +93,11 @@ export const getPerkuliahanProyekByNim = async (req, res, next) => {
     }
     const resultMatkul = []
     for (let i = 0; i < resultIdPerkuliahan.length; i++) {
-      const result =  await PerkuliahanDAO.getPerkuliahanById(resultIdPerkuliahan[i])
+      const result = await PerkuliahanDAO.getPerkuliahanById(resultIdPerkuliahan[i])
       if (result != null) {
         resultMatkul.push(result)
       }
     }
-   
     if (resultMatkul instanceof Error) {
       throw resultMatkul
     }

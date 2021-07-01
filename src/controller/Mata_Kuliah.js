@@ -1,6 +1,6 @@
 import * as mataKuliahDAO from '../dao/Mata_Kuliah'
 import * as PerkuliahanDAO from '../dao/Perkuliahan'
-import * as StudiDAO from '../dao/Studi'
+
 // get matkul yang diampu
 export const getMatkulById = async (req, res, next) => {
   try {
@@ -35,5 +35,3 @@ export const getMatkulById = async (req, res, next) => {
     next(error)
   }
 }
-
-

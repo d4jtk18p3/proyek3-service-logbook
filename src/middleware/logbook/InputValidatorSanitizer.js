@@ -44,21 +44,20 @@ export const postNewEntri = [
     .custom((value, { req }) => {
       return logbookDAO.getLogbook({ nim: req.params.nim })
         .then(async (logbook) => {
-            if (logbook.data.length > 0) {
-              const stringDate = value.split('/')
-              const year = parseInt(stringDate[0], 10)
-              const month = parseInt(stringDate[1], 10) - 1 // urutan bulan dimulai dari 0
-              const day = parseInt(stringDate[2], 10)
-              const date = new Date(year, month, day, 7) // tambah 7 supaya 00:00 di GMT
-              const entriIDs = logbook.data[0].entri
-              const entris = await Promise.all(entriIDs.map(id => entriDAO.getEntris({ _id: id })))
-              for (let i = 0; i < entris.length; i++) {
-                if (date.getTime() === entris[i].data[0].tanggal.getTime()) {
-                  return Promise.reject(new Error('Tanggal sudah ada.'))
-                }
+          if (logbook.data.length > 0) {
+            const stringDate = value.split('/')
+            const year = parseInt(stringDate[0], 10)
+            const month = parseInt(stringDate[1], 10) - 1 // urutan bulan dimulai dari 0
+            const day = parseInt(stringDate[2], 10)
+            const date = new Date(year, month, day, 7) // tambah 7 supaya 00:00 di GMT
+            const entriIDs = logbook.data[0].entri
+            const entris = await Promise.all(entriIDs.map(id => entriDAO.getEntris({ _id: id })))
+            for (let i = 0; i < entris.length; i++) {
+              if (date.getTime() === entris[i].data[0].tanggal.getTime()) {
+                return Promise.reject(new Error('Tanggal sudah ada.'))
               }
             }
-          
+          }
         })
     }),
   body('kegiatan')
