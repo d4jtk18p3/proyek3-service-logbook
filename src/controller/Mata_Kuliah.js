@@ -62,7 +62,7 @@ export const getMataKuliahProyekByNim = async (req, res, next) => {
         resultPerkuliahan.push(result)
       }
     }
-    const last = resultPerkuliahan[resultPerkuliahan.length-1].id_mata_kuliah
+    const last = resultPerkuliahan[resultPerkuliahan.length - 1].id_mata_kuliah
     const resultMatkul = await mataKuliahDAO.getMataKuliahById(last)
     if (resultMatkul instanceof Error) {
       throw resultMatkul
