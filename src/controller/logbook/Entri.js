@@ -145,13 +145,19 @@ export const getEntri = (req, res, next) => {
 
 export const updateEntri = (req, res, next) => {
   try {
+    // tanggal entri sebelumnya
+    const stringDateBefore = req.query.tanggal.split('/')
+    const yearBefore = parseInt(stringDateBefore[0], 10)
+    const monthBefore = parseInt(stringDateBefore[1], 10) - 1 // urutan bulan dimulai dari 0
+    const dayBefore = parseInt(stringDateBefore[2], 10)
+    const dateBefore = new Date(yearBefore, monthBefore, dayBefore, 7)
+    // tanggal entri setelah diedit
     const stringDate = req.body.tanggal.split('/')
     const year = parseInt(stringDate[0], 10)
     const month = parseInt(stringDate[1], 10) - 1 // urutan bulan dimulai dari 0
     const day = parseInt(stringDate[2], 10)
     const date = new Date(year, month, day, 7)
-
-    const entri = {
+    const entriNewUpdate = {
       tanggal: date,
       kegiatan: req.body.kegiatan,
       hasil: req.body.hasil,
@@ -165,22 +171,50 @@ export const updateEntri = (req, res, next) => {
       error.message = error.errors[0].msg
       throw error
     }
-
-    entriSchema.updateEntri({ _id: req.query.id }, entri)
+    logbookSchema.getLogbook({ nim: req.params.nim })
       .then((result) => {
-        res.status(200).json({
-          message: 'Entri updated successfully',
-          data: result.data
-        })
-      })
-      .catch((err) => {
-        console.error(err)
-
-        const error = {
-          status: 400,
-          message: 'Failed to update entri'
+        const logbook = result.data
+        const logbookLen = logbook.length
+        const entriList = logbook[logbookLen - 1].entri
+        for (let j = 0; j < entriList.length; j++) {
+          entriSchema.getEntri({ _id: entriList[j] })
+            .then((entriResult) => {
+              if (dateBefore.getTime() === entriResult.data[0].tanggal.getTime()) {
+                const entriUpdate = entriResult.data[0]._id
+                // update entri
+                entriSchema.updateEntri({ _id: entriUpdate }, entriNewUpdate)
+                  .then((result) => {
+                    res.json({
+                      message: 'Entri updated successfully',
+                      result,
+                      entriResult
+                    })
+                  })
+                  .catch((err) => {
+                    console.error(err)
+                    const error = {
+                      status: 404,
+                      message: 'Entri not found'
+                    }
+                    next(error)
+                  })
+              }
+            })
+            .catch((err) => {
+              console.error(err)
+              const error = {
+                status: 404,
+                message: 'Entri not found'
+              }
+              next(error)
+            })
         }
-
+      })
+      .catch(() => {
+        const error = {
+          status: 404,
+          message: 'Logbook not found'
+        }
         next(error)
       })
   } catch (error) {
