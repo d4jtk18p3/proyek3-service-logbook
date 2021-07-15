@@ -14,22 +14,22 @@ export const postNewLogbook = [
   body('kode_kelas')
     .notEmpty().withMessage('Kode kelas tidak boleh kosong'),
   body('kelas_proyek')
-    .notEmpty().withMessage('Kelas Proyek tidak boleh kosong'),
-  body('nim').custom((value, { req }) => {
-    return logbookDAO.getLogbook({ nim: value })
-      .then((logbook) => {
-        if (logbook.data.length > 0) {
-          let i = 0
-          while (i < logbook.data.length) {
-            if (logbook.data[i].kelas_proyek === req.body.kelas_proyek) {
-              return Promise.reject(new Error('Logbook sudah ada.'))
-            }
-
-            i++
-          }
-        }
-      })
-  })
+    .notEmpty().withMessage('Kelas Proyek tidak boleh kosong')
+  // body('nim').custom((value, { req }) => {
+  //   return logbookDAO.getLogbook({ nim: value })
+  //     .then((logbook) => {
+  //       if (logbook.data.length > 0) {
+  //         let i = 0
+  //         while (i < logbook.data.length) {
+  //           if (logbook.data[i].kelas_proyek === req.body.kelas_proyek) {
+  //             return Promise.reject(new Error('Logbook sudah ada.'))
+  //           }
+  //
+  //           i++
+  //         }
+  //       }
+  //     })
+  // })
 ]
 
 /* Validator dan Sanitizer untuk Entri */
