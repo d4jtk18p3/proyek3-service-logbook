@@ -4,7 +4,6 @@ import entriSchema from '../../dao/logbook/Entri'
 import logbookSchema from '../../dao/logbook/Logbook'
 import * as StudiDAO from '../../dao/Studi'
 import * as PerkuliahanDAO from '../../dao/Perkuliahan'
-import * as MahasiswaDAO from '../../dao/Mahasiswa'
 import axios from 'axios'
 
 export const createEntri = (req, res, next) => {
@@ -91,16 +90,16 @@ export const createEntri = (req, res, next) => {
                         emailBody = emailBody.replace('<link>', link)
                         console.log(emailBody)
                         sendEmail(req.params.nim, 'Entri berhasil buat', emailBody)
-                        .then((result) => {
-                          console.log('Success send email')
-                        })
-                        .catch(() => {
-                          const error = {
-                            status: 404,
-                            message: 'error sending entri'
-                          }
-                          next(error)
-                        })
+                          .then((result) => {
+                            console.log('Success send email')
+                          })
+                          .catch(() => {
+                            const error = {
+                              status: 404,
+                              message: 'error sending entri'
+                            }
+                            next(error)
+                          })
                       })
                       .catch(() => {
                         const error = {
