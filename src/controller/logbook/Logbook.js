@@ -1,6 +1,5 @@
 import { validationResult } from 'express-validator'
 import logbookSchema from '../../dao/logbook/Logbook'
-import axios from 'axios'
 
 export const createLogbook = (req, res, next) => {
   try {
