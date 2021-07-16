@@ -5,4 +5,4 @@ WORKDIR /src/app
 
 RUN npm install --only=production
 
-CMD ["node", "src/main.js"]
+CMD ["node", "--experimental-specifier-resolution=node", "src/main.js"]
