@@ -480,12 +480,6 @@ let emailBody = '<html>\n' +
 '                                                    <br>\n' +
 '                                                    <br>\n' +
 '\n' +
-'                                                    <div align="center">\n' +
-'                                                        <a\n' +
-'                                                        class="button" href="https://www.google.com/" target="_blank">\n' +
-'                                                            BUTTON\n' +
-'                                                        </a>\n' +
-'                                                    </div>\n' +
 '                                                </td>\n' +
 '                                            </tr>\n' +
 '                                        </table>\n' +
