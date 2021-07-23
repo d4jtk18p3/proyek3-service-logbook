@@ -2,7 +2,7 @@
 const config = {
   mongodb: {
     // TODO Change (or review) the url to your MongoDB:
-    url: "mongodb://localhost:27017",
+    url: "mongodb://localhost:8081",
 
     // TODO Change this to your database name:
     databaseName: "proyek3",
@@ -21,7 +21,7 @@ const config = {
   // The mongodb collection where the applied changes are stored. Only edit this when really necessary.
   changelogCollectionName: "changelog",
 
-  // The file extension to create migrations and search for in migration dir 
+  // The file extension to create migrations and search for in migration dir
   migrationFileExtension: ".cjs",
 
   // Enable the algorithm to create a checksum of the file contents and use that in the comparison to determin
