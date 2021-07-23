@@ -9,8 +9,8 @@ import entriRouter from './routes/logbook/Entri'
 import logbookRouter from './routes/logbook/Logbook'
 import perkuliahanRouter from './routes/Perkuliahan'
 import mataKuliahRouter from './routes/Mata_Kuliah'
-import kelasRouter from './routes/kelas'
-import studiRouter from './routes/studi'
+import kelasRouter from './routes/Kelas'
+import studiRouter from './routes/Studi'
 // import userRouter from './routes/User'
 
 const app = express()
