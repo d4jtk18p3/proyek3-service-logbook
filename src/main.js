@@ -14,7 +14,7 @@ db.authenticate()
     console.error('Unable to connect to the database:', error)
   })
 
-mongoose.connect(`mongodb://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_HOSTNAME}/${process.env.MONGODB_DATABASE}`, {
+mongoose.connect(`mongodb://${process.env.MONGODB_HOSTNAME}/${process.env.MONGODB_DATABASE}`, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false,
