@@ -366,7 +366,7 @@ export function removeEntriByDate (req, res, next) {
 
 const sendEmail = async (nim, subject, body) => {
   try {
-    await axios.post('http://localhost:5000/email-notif/personal', {
+    await axios.post(process.env.URL_NOTIF, {
       idUser: nim,
       subject: subject,
       bodyEmail: body
