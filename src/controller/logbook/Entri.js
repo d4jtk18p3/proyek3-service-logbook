@@ -84,10 +84,11 @@ export const createEntri = (req, res, next) => {
                     logbookSchema.updateEntriLogbook(condition, newLogbook)
                       .then((result) => {
                         console.log('Success update entri list: ', result)
-                        const link = 'http://localhost:14415/logbook/viewlogbook/' + entri._id
+                        const link = 'http://localhost:14415/logbook/viewlogbook/' + newLogbook.entri[len]
+                        console.log(link)
                         emailBody = emailBody.replace('<tanggal>', req.body.tanggal)
                         emailBody = emailBody.replace('<nama>', result.data.nama)
-                        emailBody = emailBody.replace('<link>', link)
+                        emailBody = emailBody.replace('<link>', 'http://localhost:14415/logbook/viewlogbook/' + newLogbook.entri[len])
                         console.log(emailBody)
                         sendEmail(req.params.nim, 'Entri berhasil buat', emailBody)
                           .then((result) => {
@@ -377,144 +378,75 @@ const sendEmail = async (nim, subject, body) => {
   }
 }
 
-let emailBody = '<html>\n' +
-'<head>\n' +
+let emailBody = '<!DOCTYPE html>\n' +
+'<html>\n' +
+'  <head>\n' +
 '    <meta charset="utf-8">\n' +
 '    <title>Politeknik Negeri Bandung</title>\n' +
-'    <link rel="preconnect" href="https://fonts.googleapis.com">\n' +
-'    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n' +
-'    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">\n' +
-'    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@600&display=swap" rel="stylesheet">\n' +
-'\n' +
-'    <style>\n' +
-'        .button {\n' +
-'            background-color: #59DCDC;\n' +
-'            border: none;\n' +
-'            color: white;\n' +
-'            padding: 20px;\n' +
-'            text-align: center;\n' +
-'            text-decoration: none;\n' +
-'            display: inline-block;\n' +
-'            font-family: \'Work Sans\', sans-serif;\n' +
-'            font-size: 16px;\n' +
-'            margin: 4px 2px;\n' +
-'            cursor: pointer;\n' +
-'            border-radius: 8px;\n' +
-'            width: 120px;\n' +
-'        }\n' +
-'\n' +
-'        #header, #content, #footer {\n' +
-'            background-color: #FFFFFF;\n' +
-'        }\n' +
-'\n' +
-'        #paragraph {\n' +
-'            font-size: 16px;\n' +
-'        }\n' +
-'\n' +
-'        @media only screen and (max-width: 400px) {\n' +
-'            #paragraph {\n' +
-'                font-size: 10px;\n' +
-'            }\n' +
-'        }\n' +
-'    </style>\n' +
-'</head>\n' +
-'<body style="background-color: #e4e4e4; margin: 0;">\n' +
-'    <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">\n' +
-'        <!-- <tbody style="background-color: #000000;"> -->\n' +
-'            <!-- START HEADER -->\n' +
-'            <table id="header" width="100%" height="100" align="center" cellpadding="0" cellspacing="0" style="border: 1px #C9C9C9 solid;">\n' +
+'  </head>\n' +
+'  <body style="background-color: #eeeeee; margin: 0;">\n' +
+'    <table width="100%" height="100%" border="0" align="center" cellpadding="0" cellspacing="0">\n' +
+'      <!-- <tbody style="background-color: #000000;"> -->\n' +
+'      <!-- START HEADER -->\n' +
+'      <table id="header" width="100%" height="60" align="center" cellpadding="0" cellspacing="0" style="border: 1px #C9C9C9 solid;background-color: #FFFFFF;">\n' +
+'        <tr>\n' +
+'          <td align="center" width="50" style="padding: 5px 10px 0px;">\n' +
+'            <img alt="Logo Politeknik Negeri Bandung" src="https://i.ibb.co/Nyb735s/logo-polban.png" width="20">\n' +
+'          </td>\n' +
+'          <td style="font-family: Arial, sans-serif; font-size:11px; color:#242424; line-height:24px; font-weight: 600;"> Politeknik Negeri Bandung </td>\n' +
+'        </tr>\n' +
+'      </table>\n' +
+'      <!-- END HEADER -->\n' +
+'      <table id="content" width="100%" border="0" align="center" cellpadding="0" cellspacing="0" style="max-width: 800px;background-color: #FFFFFF;">\n' +
+'        <tr>\n' +
+'          <td height="50"></td>\n' +
+'        </tr>\n' +
+'        <tr>\n' +
+'          <td align="center" valign="top">\n' +
+'            <table bgcolor="#FFFFFF" class="col-652" width="100%" border="0" align="center" cellpadding="0" cellspacing="0">\n' +
+'              <tbody>\n' +
 '                <tr>\n' +
-'                    <td align="center" width="50" style="padding: 5px 10px 0px;">\n' +
-'                        <img alt="Logo Politeknik Negeri Bandung" src="logo-polban.png" width="35">\n' +
-'                    </td>\n' +
-'                    <td style="font-family: \'Montserrat\', sans-serif; font-size:14px; color:#242424; line-height:24px; font-weight: 600;">\n' +
-'                        Politeknik Negeri Bandung\n' +
-'                    </td>\n' +
-'                </tr>\n' +
-'            </table>\n' +
-'            <!-- END HEADER -->\n' +
-'\n' +
-'            <table id="content" width="100%" border="0" align="center" cellpadding="0" cellspacing="0" style="max-width: 800px;">\n' +
-'                <tr>\n' +
-'                    <td height="50"></td>\n' +
-'                </tr>\n' +
-'\n' +
-'                <tr>\n' +
-'                    <td align="center" valign="top">\n' +
-'                        <table bgcolor="#FFFFFF" class="col-652" width="100%" border="0" align="center" cellpadding="0" cellspacing="0">\n' +
-'                            <tbody>\n' +
+'                  <td align="center" valign="top" style="background-size:cover; background-position:top;">\n' +
+'                    <table class="col-652" width="100%" border="0" align="center" cellpadding="0" cellspacing="0">\n' +
+'                      <tbody>\n' +
+'                        <tr id="content">\n' +
+'                          <table class="col-652" order="0" cellpadding="0" cellspacing="0" style="padding: 10px 80px;background-color: #FFFFFF;">\n' +
 '                            <tr>\n' +
-'                                <td align="center" valign="top"\n' +
-'                                    style="background-size:cover; background-position:top;">\n' +
-'                                <table class="col-652" width="100%" border="0" align="center"\n' +
-'                                    cellpadding="0" cellspacing="0">\n' +
-'                                    <tbody>\n' +
-'\n' +
-'                                    <tr id="content">\n' +
-'                                        <table class="col-652" width="80%" order="0" cellpadding="0" cellspacing="0">\n' +
-'                                            <tr>\n' +
-'                                                <td align="center"\n' +
-'                                                    style="font-family: \'Montserrat\', sans-serif; font-size:32px; color:#242424; line-height:24px; font-weight: bold;">\n' +
-'                                                    Logbook Berhasil ditambahkan\n' +
-'                                                </td>\n' +
-'                                            </tr>\n' +
-'\n' +
-'                                            <tr>\n' +
-'                                                <td height="50"></td>\n' +
-'                                            </tr>\n' +
-'\n' +
-'                                            <tr>\n' +
-'                                                <td id="paragraph" style="font-family: \'Montserrat\', sans-serif; color:#242424; line-height:24px; font-weight: 400; padding:0 50px;">\n' +
-'                                                    Hai, <nama>!\n' +
-'\n' +
-'                                                    <br>\n' +
-'                                                    <br>\n' +
-'\n' +
-'                                                    Logbook pada <tanggal> telah ditambahkan.\n' +
-'\n' +
-'                                                    <br>\n' +
-'                                                    <br>\n' +
-'\n' +
-'                                                    Logbook yang telah dibuat bisa dilihat pada <link>.\n' +
-'\n' +
-'                                                    <br>\n' +
-'                                                    <br>\n' +
-'\n' +
-'                                                </td>\n' +
-'                                            </tr>\n' +
-'                                        </table>\n' +
-'                                    </tr>\n' +
-'\n' +
-'                                    <tr>\n' +
-'                                        <td height="50"></td>\n' +
-'                                    </tr>\n' +
-'                                    </tbody>\n' +
-'                                </table>\n' +
-'                                </td>\n' +
+'                              <td align="center" style="font-family: Arial, Helvetica, sans-serif; font-size:20px; color:#242424; line-height:24px; font-weight: bold;"> Logbook Berhasil ditambahkan </td>\n' +
 '                            </tr>\n' +
-'                            </tbody>\n' +
-'                        </table>\n' +
-'                    </td>\n' +
+'                            <tr>\n' +
+'                              <td height="50"></td>\n' +
+'                            </tr>\n' +
+'                            <tr>\n' +
+'                              <td id="paragraph" style="font-family: Arial, Helvetica, sans-serif; font-size:12px; color:#242424; line-height:24px; font-weight: 300; padding: 10px 40px;"> Hai, <nama>!<br>\n' +
+'                                <br> Logbook pada <tanggal> telah ditambahkan.<br>\n' +
+'                                <br> Logbook yang telah dibuat bisa dilihat pada <link>. <br>\n' +
+'                                <br>\n' +
+'                              </td>\n' +
+'                            </tr>\n' +
+'                          </table>\n' +
+'                        </tr>\n' +
+'                      </tbody>\n' +
+'                    </table>\n' +
+'                  </td>\n' +
 '                </tr>\n' +
+'              </tbody>\n' +
 '            </table>\n' +
-'\n' +
-'            <table id="footer" width="100%" height="100" border="0" align="center" cellpadding="0" cellspacing="0" style="max-width: 800px;">\n' +
-'                <tr align="center">\n' +
-'                    <td>\n' +
-'                        <p>\n' +
-'                            <hr>\n' +
-'\n' +
-'                            <div style="font-family: \'Montserrat\', sans-serif; font-size:12px; color:#272343; line-height:24px; font-weight: 600;">\n' +
-'                                Copyright Politeknik Negeri Bandung. All right reserved.\n' +
-'                            </div>\n' +
-'                            <div style="font-family: \'Montserrat\', sans-serif; font-size:12px; color:#242424; line-height:24px; font-weight: 400;">\n' +
-'                                Jl. Gegerkalong Hilir, Ciwaruga, Kec. Parongpong, <br> Kabupaten Bandung Barat, Jawa Barat 40559\n' +
-'                            </div>\n' +
-'                        </p>\n' +
-'                    </td>\n' +
-'                </tr>\n' +
-'            </table>\n' +
-'        <!-- </tbody> -->\n' +
+'          </td>\n' +
+'        </tr>\n' +
+'      </table>\n' +
+'      <table id="footer" width="100%" height="100" border="0" align="center" cellpadding="0" cellspacing="0" style="max-width: 800px;background-color: #FFFFFF;">\n' +
+'        <tr align="center">\n' +
+'          <td>\n' +
+'            <p>\n' +
+'              <hr>\n' +
+'            <div style="font-family: Arial, Helvetica, sans-serif; font-size:12px; color:#272343; line-height:24px; font-weight: 600;"> Copyright Politeknik Negeri Bandung. All right reserved. </div>\n' +
+'            <div style="font-family: Arial, Helvetica, sans-serif; font-size:12px; color:#242424; line-height:24px; font-weight: 400;"> Jl. Gegerkalong Hilir, Ciwaruga, Kec. Parongpong, <br> Kabupaten Bandung Barat, Jawa Barat 40559 </div>\n' +
+'            </p>\n' +
+'          </td>\n' +
+'        </tr>\n' +
+'      </table>\n' +
+'      <!-- </tbody> -->\n' +
 '    </table>\n' +
-'</body>\n' +
+'  </body>\n' +
 '</html>'
