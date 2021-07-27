@@ -84,11 +84,11 @@ export const createEntri = (req, res, next) => {
                     logbookSchema.updateEntriLogbook(condition, newLogbook)
                       .then((result) => {
                         console.log('Success update entri list: ', result)
-                        const link = 'http://localhost:14415/logbook/viewlogbook/' + newLogbook.entri[len]
+                        const link = 'http://logbook.7f000001.nip.io/logbook/viewlogbook/' + newLogbook.entri[len]
                         console.log(link)
                         emailBody = emailBody.replace('<tanggal>', req.body.tanggal)
                         emailBody = emailBody.replace('<nama>', result.data.nama)
-                        emailBody = emailBody.replace('<link>', 'http://localhost:14415/logbook/viewlogbook/' + newLogbook.entri[len])
+                        emailBody = emailBody.replace('<link>', 'http://logbook.7f000001.nip.io/logbook/viewlogbook/' + newLogbook.entri[len])
                         console.log(emailBody)
                         sendEmail(req.params.nim, 'Entri berhasil buat', emailBody)
                           .then((result) => {
